@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/impedance-calculator/static/css/main.5c85d23c.css",
+    "main.js": "/impedance-calculator/static/js/main.05684b1e.js",
+    "index.html": "/impedance-calculator/index.html",
+    "main.5c85d23c.css.map": "/impedance-calculator/static/css/main.5c85d23c.css.map",
+    "main.05684b1e.js.map": "/impedance-calculator/static/js/main.05684b1e.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.5c85d23c.css",
+    "static/js/main.05684b1e.js"
+  ]
+}
