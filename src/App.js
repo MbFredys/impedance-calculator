@@ -1,5 +1,15 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 
+// Favicon SVG integrado
+const FaviconSVG = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" className="w-6 h-6">
+    <rect x="4" y="10" width="24" height="2" fill="#06B6D4" rx="1"/>
+    <rect x="4" y="15" width="12" height="2" fill="#EF4444" rx="1"/>
+    <rect x="4" y="20" width="24" height="2" fill="#06B6D4" rx="1"/>
+    <text x="16" y="8" textAnchor="middle" className="text-xs fill-cyan-400 font-bold">Z₀</text>
+  </svg>
+);
+
 const App = () => {
   const [language, setLanguage] = useState('es');
   const [traceType, setTraceType] = useState('microstrip');
@@ -13,6 +23,54 @@ const App = () => {
   const [preset, setPreset] = useState('custom');
   const [materialName, setMaterialName] = useState('FR4');
   const [isModified, setIsModified] = useState(false);
+
+  // SEO Metadata
+  const title = language === 'es' 
+    ? "Calculadora de Impedancia PCB | Fredys Matos Borges" 
+    : "PCB Impedance Calculator | Fredys Matos Borges";
+  const description = language === 'es'
+    ? "Calculadora gratuita de impedancia característica para trazos PCB microstrip y stripline. Visualización en tiempo real del stack-up con materiales FR4, Rogers RO4350B y más."
+    : "Free PCB characteristic impedance calculator for microstrip and stripline traces. Real-time stack-up visualization with FR4, Rogers RO4350B materials and more.";
+  const keywords = language === 'es'
+    ? "calculadora impedancia pcb, microstrip, stripline, diseño pcb, control impedancia, fr4, rogers, stack-up, diseñador pcb, fredys matos borges"
+    : "pcb impedance calculator, microstrip, stripline, pcb design, impedance control, fr4, rogers, stack-up, pcb designer, fredys matos borges";
+
+  // Update document title and meta tags
+  useEffect(() => {
+    document.title = title;
+    
+    // Update or create meta tags
+    const updateMetaTag = (name, content) => {
+      let element = document.querySelector(`meta[name="${name}"]`) || document.querySelector(`meta[property="${name}"]`);
+      if (!element) {
+        element = document.createElement('meta');
+        element.setAttribute(name.startsWith('og:') || name.startsWith('twitter:') ? 'property' : 'name', name);
+        document.getElementsByTagName('head')[0].appendChild(element);
+      }
+      element.setAttribute('content', content);
+    };
+
+    updateMetaTag('description', description);
+    updateMetaTag('keywords', keywords);
+    updateMetaTag('author', 'Fredys Matos Borges');
+    
+    // Open Graph
+    updateMetaTag('og:title', title);
+    updateMetaTag('og:description', description);
+    updateMetaTag('og:type', 'website');
+    updateMetaTag('og:url', window.location.href);
+    updateMetaTag('og:image', 'https://github.com/MbFredys/impedance-calculator/97c06a1d0050e7b45b3987af3ceda3eed464be53/Z%20VIEW.webp');
+    updateMetaTag('og:image:width', '1200');
+    updateMetaTag('og:image:height', '630');
+    updateMetaTag('og:locale', language === 'es' ? 'es_ES' : 'en_US');
+    
+    // Twitter Cards
+    updateMetaTag('twitter:card', 'summary_large_image');
+    updateMetaTag('twitter:title', title);
+    updateMetaTag('twitter:description', description);
+    updateMetaTag('twitter:image', 'https://github.com/MbFredys/impedance-calculator/97c06a1d0050e7b45b3987af3ceda3eed464be53/Z%20VIEW.webp');
+    updateMetaTag('twitter:creator', '@MbFredys');
+  }, [language, title, description, keywords]);
 
   const toggleFAQ = (index) => {
     setOpenFAQ(openFAQ === index ? null : index);
@@ -149,13 +207,13 @@ const App = () => {
       traceWidth: 0.15,
       traceThickness: 0.035,
       dielectricHeight: 0,
-      substrateHeight: 0.6, // CORRECTED: was 0.254, now 0.6mm for realistic 100Ω stripline
+      substrateHeight: 0.6,
       relativePermittivity: 4.4,
       materialName: 'FR4'
     },
     ro4350: {
       traceType: 'microstrip',
-      traceWidth: 0.48, // CORRECTED: was 0.3, now 0.48mm for 50Ω on RO4350B
+      traceWidth: 0.48,
       traceThickness: 0.035,
       dielectricHeight: 0.254,
       substrateHeight: 0.8,
@@ -258,15 +316,34 @@ const App = () => {
     }
   }, [traceType, w, t_val, h, hSub, relativePermittivity]);
 
-  // Stack-up visualization dimensions - REDUCED SIZE FOR BETTER FIT
-  const svgWidth = 550;
-  const svgHeight = 320;
-  const margin = 40;
-  const availableHeight = svgHeight - 2 * margin;
-  const availableWidth = svgWidth - 2 * margin;
+  // Stack-up visualization dimensions - MOBILE OPTIMIZED
+  const getSVGDimensions = () => {
+    if (window.innerWidth < 768) {
+      // Mobile: smaller, responsive
+      return {
+        width: '100%',
+        height: 280,
+        margin: 25,
+        contentWidthFactor: 0.85
+      };
+    } else {
+      // Desktop: original size
+      return {
+        width: 550,
+        height: 320,
+        margin: 40,
+        contentWidthFactor: 0.7
+      };
+    }
+  };
 
-  // Reduce internal content to 70% of available space
-  const contentWidth = availableWidth * 0.7;
+  const { width: svgWidth, height: svgHeight, margin, contentWidthFactor } = getSVGDimensions();
+  const fixedWidth = typeof svgWidth === 'number' ? svgWidth : 550;
+  const availableHeight = svgHeight - 2 * margin;
+  const availableWidth = (typeof svgWidth === 'number' ? svgWidth : window.innerWidth * 0.9) - 2 * margin;
+
+  // Reduce internal content based on device
+  const contentWidth = availableWidth * contentWidthFactor;
   const contentHeight = availableHeight * 0.8;
   const contentX = margin + (availableWidth - contentWidth) / 2;
   const contentY = margin + (availableHeight - contentHeight) / 2;
@@ -308,37 +385,46 @@ const App = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 p-4">
-      <div className="max-w-7xl mx-auto">
+      {/* Favicon */}
+      <div className="fixed top-4 left-4 z-50">
+        <FaviconSVG />
+      </div>
+      
+      <div className="max-w-7xl mx-auto pt-8">
         {/* Language Toggle */}
         <div className="flex justify-end mb-6">
           <button
             onClick={() => setLanguage(language === 'es' ? 'en' : 'es')}
-            className="px-5 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-full hover:from-cyan-600 hover:to-blue-700 transition-all duration-300 font-medium shadow-lg hover:shadow-xl"
+            className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-full hover:from-cyan-600 hover:to-blue-700 transition-all duration-300 font-medium shadow-lg hover:shadow-xl text-sm md:text-base"
           >
             {t('toggleLanguage')}
           </button>
         </div>
 
-        <div className="text-center mb-10">
-          <h1 className="text-5xl font-bold text-white mb-4 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-300">
-            {t('title')}
-          </h1>
-          <p className="text-blue-200 text-xl max-w-3xl mx-auto">{t('subtitle')}</p>
+        <div className="text-center mb-8 md:mb-10">
+          <div className="flex items-center justify-center mb-4">
+            <FaviconSVG />
+            <h1 className="text-3xl md:text-5xl font-bold text-white ml-3 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-300">
+              {t('title')}
+            </h1>
+          </div>
+          <p className="text-blue-200 text-base md:text-xl max-w-3xl mx-auto px-2">{t('subtitle')}</p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-10">
+        {/* MOBILE: Stack vertically, DESKTOP: Side by side */}
+        <div className="space-y-8 md:space-y-0 md:grid md:grid-cols-2 md:gap-10">
           {/* Controls Panel */}
-          <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8 shadow-2xl">
-            <div className="space-y-7">
+          <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-6 md:p-8 shadow-2xl">
+            <div className="space-y-5 md:space-y-7">
               {/* Presets Selection */}
               <div>
-                <label className="block text-lg font-semibold text-cyan-300 mb-3">
+                <label className="block text-base md:text-lg font-semibold text-cyan-300 mb-2 md:mb-3">
                   {t('presets')}
                 </label>
                 <select
                   value={preset}
                   onChange={(e) => applyPreset(e.target.value)}
-                  className="w-full p-3 bg-slate-700/50 border border-slate-600 text-white rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                  className="w-full p-2.5 md:p-3 bg-slate-700/50 border border-slate-600 text-white rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-transparent text-sm md:text-base"
                 >
                   <option value="custom">{t('custom')}</option>
                   <option value="fr4_50ohm">{t('fr4_50ohm')}</option>
@@ -350,13 +436,13 @@ const App = () => {
 
               {/* Trace Type Selection */}
               <div>
-                <label className="block text-lg font-semibold text-cyan-300 mb-3">
+                <label className="block text-base md:text-lg font-semibold text-cyan-300 mb-2 md:mb-3">
                   {t('traceType')}
                 </label>
-                <div className="flex space-x-3">
+                <div className="flex space-x-2 md:space-x-3">
                   <button
                     onClick={(e) => handleInputChange(setTraceType, 'microstrip')}
-                    className={`flex-1 py-3 px-6 rounded-xl font-medium transition-all duration-300 ${
+                    className={`flex-1 py-2.5 md:py-3 px-4 md:px-6 rounded-xl font-medium transition-all duration-300 text-sm md:text-base ${
                       traceType === 'microstrip'
                         ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-lg'
                         : 'bg-slate-700/50 text-slate-300 hover:bg-slate-700'
@@ -366,7 +452,7 @@ const App = () => {
                   </button>
                   <button
                     onClick={(e) => handleInputChange(setTraceType, 'stripline')}
-                    className={`flex-1 py-3 px-6 rounded-xl font-medium transition-all duration-300 ${
+                    className={`flex-1 py-2.5 md:py-3 px-4 md:px-6 rounded-xl font-medium transition-all duration-300 text-sm md:text-base ${
                       traceType === 'stripline'
                         ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-lg'
                         : 'bg-slate-700/50 text-slate-300 hover:bg-slate-700'
@@ -379,13 +465,13 @@ const App = () => {
 
               {/* Units Selection */}
               <div>
-                <label className="block text-lg font-semibold text-cyan-300 mb-3">
+                <label className="block text-base md:text-lg font-semibold text-cyan-300 mb-2 md:mb-3">
                   {t('units')}
                 </label>
                 <select
                   value={units}
                   onChange={(e) => setUnits(e.target.value)}
-                  className="w-full p-3 bg-slate-700/50 border border-slate-600 text-white rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                  className="w-full p-2.5 md:p-3 bg-slate-700/50 border border-slate-600 text-white rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-transparent text-sm md:text-base"
                 >
                   <option value="mm">Millimeters (mm)</option>
                   <option value="mil">Mils</option>
@@ -394,9 +480,9 @@ const App = () => {
               </div>
 
               {/* Input Sliders */}
-              <div className="space-y-5">
+              <div className="space-y-4 md:space-y-5">
                 <div>
-                  <label className="block text-sm font-semibold text-slate-300 mb-2">
+                  <label className="block text-xs md:text-sm font-semibold text-slate-300 mb-1 md:mb-2">
                     {t('traceWidth')}: <span className="text-cyan-400">{traceWidth.toFixed(3)} {units}</span>
                   </label>
                   <input
@@ -406,12 +492,12 @@ const App = () => {
                     step={units === 'mil' ? '0.5' : units === 'inch' ? '0.001' : '0.01'}
                     value={traceWidth}
                     onChange={(e) => handleInputChange(setTraceWidth, parseFloat(e.target.value))}
-                    className="w-full h-3 bg-slate-700 rounded-lg appearance-none cursor-pointer slider"
+                    className="w-full h-2.5 md:h-3 bg-slate-700 rounded-lg appearance-none cursor-pointer slider"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-slate-300 mb-2">
+                  <label className="block text-xs md:text-sm font-semibold text-slate-300 mb-1 md:mb-2">
                     {t('traceThickness')}: <span className="text-cyan-400">{traceThickness.toFixed(3)} {units}</span>
                   </label>
                   <input
@@ -421,13 +507,13 @@ const App = () => {
                     step={units === 'mil' ? '0.1' : units === 'inch' ? '0.0001' : '0.005'}
                     value={traceThickness}
                     onChange={(e) => handleInputChange(setTraceThickness, parseFloat(e.target.value))}
-                    className="w-full h-3 bg-slate-700 rounded-lg appearance-none cursor-pointer slider"
+                    className="w-full h-2.5 md:h-3 bg-slate-700 rounded-lg appearance-none cursor-pointer slider"
                   />
                 </div>
 
                 {traceType === 'microstrip' ? (
                   <div>
-                    <label className="block text-sm font-semibold text-slate-300 mb-2">
+                    <label className="block text-xs md:text-sm font-semibold text-slate-300 mb-1 md:mb-2">
                       {t('dielectricHeight')}: <span className="text-cyan-400">{dielectricHeight.toFixed(3)} {units}</span>
                     </label>
                     <input
@@ -437,12 +523,12 @@ const App = () => {
                       step={units === 'mil' ? '0.5' : units === 'inch' ? '0.001' : '0.01'}
                       value={dielectricHeight}
                       onChange={(e) => handleInputChange(setDielectricHeight, parseFloat(e.target.value))}
-                      className="w-full h-3 bg-slate-700 rounded-lg appearance-none cursor-pointer slider"
+                      className="w-full h-2.5 md:h-3 bg-slate-700 rounded-lg appearance-none cursor-pointer slider"
                     />
                   </div>
                 ) : (
                   <div>
-                    <label className="block text-sm font-semibold text-slate-300 mb-2">
+                    <label className="block text-xs md:text-sm font-semibold text-slate-300 mb-1 md:mb-2">
                       {t('substrateHeight')}: <span className="text-cyan-400">{substrateHeight.toFixed(3)} {units}</span>
                     </label>
                     <input
@@ -452,13 +538,13 @@ const App = () => {
                       step={units === 'mil' ? '1' : units === 'inch' ? '0.002' : '0.02'}
                       value={substrateHeight}
                       onChange={(e) => handleInputChange(setSubstrateHeight, parseFloat(e.target.value))}
-                      className="w-full h-3 bg-slate-700 rounded-lg appearance-none cursor-pointer slider"
+                      className="w-full h-2.5 md:h-3 bg-slate-700 rounded-lg appearance-none cursor-pointer slider"
                     />
                   </div>
                 )}
 
                 <div>
-                  <label className="block text-sm font-semibold text-slate-300 mb-2">
+                  <label className="block text-xs md:text-sm font-semibold text-slate-300 mb-1 md:mb-2">
                     {t('permittivity')}: <span className="text-cyan-400">{relativePermittivity.toFixed(2)}</span>
                   </label>
                   <input
@@ -468,33 +554,38 @@ const App = () => {
                     step="0.1"
                     value={relativePermittivity}
                     onChange={(e) => handleInputChange(setRelativePermittivity, parseFloat(e.target.value))}
-                    className="w-full h-3 bg-slate-700 rounded-lg appearance-none cursor-pointer slider"
+                    className="w-full h-2.5 md:h-3 bg-slate-700 rounded-lg appearance-none cursor-pointer slider"
                   />
                 </div>
               </div>
 
               {/* Result Display */}
-              <div className="bg-gradient-to-r from-cyan-600/20 to-blue-600/20 rounded-2xl p-7 text-center border border-cyan-500/30">
-                <div className="text-cyan-300 text-lg font-medium mb-2">{t('impedance')}</div>
-                <div className="text-5xl font-bold text-white">{impedance.toFixed(1)} {t('ohms')}</div>
+              <div className="bg-gradient-to-r from-cyan-600/20 to-blue-600/20 rounded-2xl p-5 md:p-7 text-center border border-cyan-500/30">
+                <div className="text-cyan-300 text-sm md:text-lg font-medium mb-1 md:mb-2">{t('impedance')}</div>
+                <div className="text-3xl md:text-5xl font-bold text-white">{impedance.toFixed(1)} {t('ohms')}</div>
                 {impedance > 150 || impedance < 20 ? (
-                  <div className="text-yellow-300 text-sm mt-3 font-medium">{t('warning')}</div>
+                  <div className="text-yellow-300 text-xs md:text-sm mt-2 md:mt-3 font-medium">{t('warning')}</div>
                 ) : null}
               </div>
             </div>
           </div>
 
-          {/* Visualization Panel - CORRECTED MATERIAL DISPLAY */}
-          <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8 shadow-2xl">
-            <div className="text-center mb-6">
-              <h2 className="text-2xl font-bold text-white mb-2">
+          {/* Visualization Panel - MOBILE OPTIMIZED */}
+          <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-6 md:p-8 shadow-2xl">
+            <div className="text-center mb-4 md:mb-6">
+              <h2 className="text-xl md:text-2xl font-bold text-white mb-1 md:mb-2">
                 {traceType === 'microstrip' ? t('microstrip') : t('stripline')} {t('stackUp')}
               </h2>
-              <p className="text-slate-400">{t('crossSection')}</p>
+              <p className="text-slate-400 text-sm md:text-base">{t('crossSection')}</p>
             </div>
             
-            <div className="flex justify-center">
-              <svg width={svgWidth} height={svgHeight} className="border border-slate-600 rounded-xl bg-slate-900/30">
+            <div className="flex justify-center w-full">
+              <svg 
+                width={svgWidth} 
+                height={svgHeight} 
+                viewBox={`0 0 ${fixedWidth} ${svgHeight}`}
+                className="w-full border border-slate-600 rounded-xl bg-slate-900/30"
+              >
                 {/* Ground Plane (Microstrip) or Bottom Ground (Stripline) */}
                 {traceType === 'stripline' && (
                   <>
@@ -510,7 +601,7 @@ const App = () => {
                       x={contentX + contentWidth / 2}
                       y={startY + traceHeight + dielectricHeightVis + substrateHeightVis + 24}
                       textAnchor="middle"
-                      className="text-sm fill-slate-300 font-medium"
+                      className="text-xs md:text-sm fill-slate-300 font-medium"
                     >
                       {t('ground')}
                     </text>
@@ -527,7 +618,7 @@ const App = () => {
                   opacity="0.9"
                 />
                 <text
-                  x={contentX - 15}
+                  x={contentX - 12}
                   y={
                     traceType === 'microstrip'
                       ? startY + traceHeight + dielectricHeightVis / 2
@@ -535,7 +626,7 @@ const App = () => {
                   }
                   textAnchor="end"
                   dominantBaseline="middle"
-                  className="text-sm fill-slate-200 font-medium"
+                  className="text-xs md:text-sm fill-slate-200 font-medium"
                 >
                   {materialName}
                 </text>
@@ -554,7 +645,7 @@ const App = () => {
                   y={startY + traceHeight / 2}
                   textAnchor="middle"
                   dominantBaseline="middle"
-                  className="text-sm fill-white font-bold"
+                  className="text-xs md:text-sm fill-white font-bold"
                 >
                   {t('trace')}
                 </text>
@@ -572,10 +663,10 @@ const App = () => {
                       opacity="0.15"
                     />
                     <text
-                      x={contentX - 15}
+                      x={contentX - 12}
                       y={startY + traceHeight + dielectricHeightVis + 22}
                       textAnchor="end"
-                      className="text-sm fill-blue-400 font-medium"
+                      className="text-xs md:text-sm fill-blue-400 font-medium"
                     >
                       {t('air')}
                     </text>
@@ -592,11 +683,11 @@ const App = () => {
                       opacity="0.9"
                     />
                     <text
-                      x={contentX - 15}
+                      x={contentX - 12}
                       y={startY + dielectricHeightVis / 2}
                       textAnchor="end"
                       dominantBaseline="middle"
-                      className="text-sm fill-slate-200 font-medium"
+                      className="text-xs md:text-sm fill-slate-200 font-medium"
                     >
                       {materialName}
                     </text>
@@ -613,7 +704,7 @@ const App = () => {
                       x={contentX + contentWidth / 2}
                       y={startY - 22}
                       textAnchor="middle"
-                      className="text-sm fill-slate-300 font-medium"
+                      className="text-xs md:text-sm fill-slate-300 font-medium"
                     >
                       {t('ground')}
                     </text>
@@ -635,7 +726,7 @@ const App = () => {
                       x={contentX + contentWidth / 2}
                       y={startY + traceHeight + dielectricHeightVis + 24}
                       textAnchor="middle"
-                      className="text-sm fill-slate-300 font-medium"
+                      className="text-xs md:text-sm fill-slate-300 font-medium"
                     >
                       {t('ground')}
                     </text>
@@ -647,9 +738,9 @@ const App = () => {
                   <>
                     {/* Height dimension - inside SVG */}
                     <line
-                      x1={contentX + contentWidth + 20}
+                      x1={contentX + contentWidth + 18}
                       y1={startY + traceHeight}
-                      x2={contentX + contentWidth + 20}
+                      x2={contentX + contentWidth + 18}
                       y2={startY + traceHeight + dielectricHeightVis}
                       stroke="#E2E8F0"
                       strokeWidth="1.5"
@@ -657,18 +748,18 @@ const App = () => {
                       markerEnd="url(#arrowhead)"
                     />
                     <rect
-                      x={contentX + contentWidth + 10}
-                      y={startY + traceHeight + dielectricHeightVis / 2 - 10}
-                      width={75}
-                      height={20}
+                      x={contentX + contentWidth + 12}
+                      y={startY + traceHeight + dielectricHeightVis / 2 - 9}
+                      width={70}
+                      height={18}
                       rx="4"
                       fill="rgba(15, 23, 42, 0.85)"
                     />
                     <text
                       x={contentX + contentWidth + 47}
-                      y={startY + traceHeight + dielectricHeightVis / 2 + 4}
+                      y={startY + traceHeight + dielectricHeightVis / 2 + 3}
                       textAnchor="middle"
-                      className="text-xs fill-cyan-300 font-medium"
+                      className="text-[10px] md:text-xs fill-cyan-300 font-medium"
                     >
                       h = {dielectricHeight.toFixed(2)} {units}
                     </text>
@@ -677,9 +768,9 @@ const App = () => {
                   <>
                     {/* Total height dimension - inside SVG */}
                     <line
-                      x1={contentX + contentWidth + 20}
+                      x1={contentX + contentWidth + 18}
                       y1={startY - 15}
-                      x2={contentX + contentWidth + 20}
+                      x2={contentX + contentWidth + 18}
                       y2={startY + traceHeight + dielectricHeightVis + substrateHeightVis + 15}
                       stroke="#E2E8F0"
                       strokeWidth="1.5"
@@ -687,18 +778,18 @@ const App = () => {
                       markerEnd="url(#arrowhead)"
                     />
                     <rect
-                      x={contentX + contentWidth + 10}
-                      y={startY + traceHeight / 2 + dielectricHeightVis + substrateHeightVis / 2 - 10}
-                      width={75}
-                      height={20}
+                      x={contentX + contentWidth + 12}
+                      y={startY + traceHeight / 2 + dielectricHeightVis + substrateHeightVis / 2 - 9}
+                      width={70}
+                      height={18}
                       rx="4"
                       fill="rgba(15, 23, 42, 0.85)"
                     />
                     <text
                       x={contentX + contentWidth + 47}
-                      y={startY + traceHeight / 2 + dielectricHeightVis + substrateHeightVis / 2 + 4}
+                      y={startY + traceHeight / 2 + dielectricHeightVis + substrateHeightVis / 2 + 3}
                       textAnchor="middle"
-                      className="text-xs fill-cyan-300 font-medium"
+                      className="text-[10px] md:text-xs fill-cyan-300 font-medium"
                     >
                       b = {substrateHeight.toFixed(2)} {units}
                     </text>
@@ -708,27 +799,27 @@ const App = () => {
                 {/* Width dimension - inside SVG */}
                 <line
                   x1={contentX}
-                  y1={startY - 25}
+                  y1={startY - 22}
                   x2={contentX + contentWidth}
-                  y2={startY - 25}
+                  y2={startY - 22}
                   stroke="#E2E8F0"
                   strokeWidth="1.5"
                   markerStart="url(#arrowhead)"
                   markerEnd="url(#arrowhead)"
                 />
                 <rect
-                  x={contentX + contentWidth / 2 - 55}
-                  y={startY - 38}
-                  width={110}
-                  height={20}
+                  x={contentX + contentWidth / 2 - 50}
+                  y={startY - 35}
+                  width={100}
+                  height={18}
                   rx="4"
                   fill="rgba(15, 23, 42, 0.85)"
                 />
                 <text
                   x={contentX + contentWidth / 2}
-                  y={startY - 24}
+                  y={startY - 22}
                   textAnchor="middle"
-                  className="text-xs fill-cyan-300 font-medium"
+                  className="text-[10px] md:text-xs fill-cyan-300 font-medium"
                 >
                   w = {traceWidth.toFixed(2)} {units}
                 </text>
@@ -749,8 +840,8 @@ const App = () => {
               </svg>
             </div>
 
-            <div className="mt-6 text-sm text-slate-400">
-              <p className="mb-2">
+            <div className="mt-4 md:mt-6 text-xs md:text-sm text-slate-400">
+              <p className="mb-1 md:mb-2">
                 <span className="font-semibold text-cyan-300">{t('materials')}</span> {t('copper')}, {t('grounds')}
               </p>
               <p>
@@ -764,18 +855,18 @@ const App = () => {
         </div>
 
         {/* Info Panel */}
-        <div className="mt-12 bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8 shadow-2xl">
-          <h3 className="text-2xl font-bold text-white mb-6 text-center">{t('about')}</h3>
-          <div className="grid md:grid-cols-2 gap-8 text-slate-300">
-            <div className="space-y-4">
-              <h4 className="text-xl font-semibold text-cyan-400">{t('microstrip')}</h4>
-              <p className="text-lg leading-relaxed">
+        <div className="mt-8 md:mt-12 bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-6 md:p-8 shadow-2xl">
+          <h3 className="text-xl md:text-2xl font-bold text-white mb-4 md:mb-6 text-center">{t('about')}</h3>
+          <div className="grid md:grid-cols-2 gap-6 md:gap-8 text-slate-300">
+            <div className="space-y-3 md:space-y-4">
+              <h4 className="text-lg md:text-xl font-semibold text-cyan-400">{t('microstrip')}</h4>
+              <p className="text-sm md:text-lg leading-relaxed">
                 {t('microstripInfo')}
               </p>
             </div>
-            <div className="space-y-4">
-              <h4 className="text-xl font-semibold text-cyan-400">{t('stripline')}</h4>
-              <p className="text-lg leading-relaxed">
+            <div className="space-y-3 md:space-y-4">
+              <h4 className="text-lg md:text-xl font-semibold text-cyan-400">{t('stripline')}</h4>
+              <p className="text-sm md:text-lg leading-relaxed">
                 {t('striplineInfo')}
               </p>
             </div>
@@ -783,19 +874,19 @@ const App = () => {
         </div>
 
         {/* FAQ Section - COLLAPSIBLE WITH PROPER LIST */}
-        <div className="mt-12 bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8 shadow-2xl">
-          <h3 className="text-3xl font-bold text-white mb-8 text-center">{t('faqTitle')}</h3>
+        <div className="mt-8 md:mt-12 bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-6 md:p-8 shadow-2xl">
+          <h3 className="text-2xl md:text-3xl font-bold text-white mb-6 md:mb-8 text-center">{t('faqTitle')}</h3>
           
-          <div className="space-y-4">
+          <div className="space-y-3 md:space-y-4">
             {faqData.map((faq, index) => (
               <div key={index} className="border border-slate-600 rounded-xl overflow-hidden">
                 <button
                   onClick={() => toggleFAQ(index)}
-                  className="w-full p-6 text-left bg-slate-700/50 hover:bg-slate-700/70 transition-all duration-300 flex justify-between items-center"
+                  className="w-full p-4 md:p-6 text-left bg-slate-700/50 hover:bg-slate-700/70 transition-all duration-300 flex justify-between items-center"
                 >
-                  <h4 className="text-xl font-semibold text-cyan-300">{faq.question}</h4>
+                  <h4 className="text-base md:text-xl font-semibold text-cyan-300">{faq.question}</h4>
                   <svg
-                    className={`w-6 h-6 text-cyan-400 transition-transform duration-300 ${
+                    className={`w-5 h-5 md:w-6 md:h-6 text-cyan-400 transition-transform duration-300 ${
                       openFAQ === index ? 'rotate-180' : ''
                     }`}
                     fill="none"
@@ -806,15 +897,15 @@ const App = () => {
                   </svg>
                 </button>
                 {openFAQ === index && (
-                  <div className="p-6 bg-slate-800/30 border-t border-slate-600">
+                  <div className="p-4 md:p-6 bg-slate-800/30 border-t border-slate-600">
                     {Array.isArray(faq.answer) ? (
-                      <ol className="text-slate-300 text-lg leading-relaxed space-y-2 list-decimal pl-5">
+                      <ol className="text-slate-300 text-sm md:text-lg leading-relaxed space-y-1 md:space-y-2 list-decimal pl-4 md:pl-5">
                         {faq.answer.map((step, i) => (
                           <li key={i}>{step}</li>
                         ))}
                       </ol>
                     ) : (
-                      <p className="text-slate-300 text-lg leading-relaxed">{faq.answer}</p>
+                      <p className="text-slate-300 text-sm md:text-lg leading-relaxed">{faq.answer}</p>
                     )}
                   </div>
                 )}
@@ -824,8 +915,8 @@ const App = () => {
         </div>
 
         {/* Footer Credits */}
-        <div className="mt-16 text-center text-slate-400 text-lg pb-12">
-          <p className="mb-3">
+        <div className="mt-12 md:mt-16 text-center text-slate-400 text-sm md:text-lg pb-8 md:pb-12">
+          <p className="mb-2 md:mb-3">
             {t('credits')}{' '}
             <a 
               href="https://mbfredys.github.io" 
@@ -853,22 +944,33 @@ const App = () => {
       <style jsx>{`
         .slider::-webkit-slider-thumb {
           appearance: none;
-          height: 22px;
-          width: 22px;
+          height: 20px;
+          width: 20px;
           border-radius: 50%;
           background: linear-gradient(135deg, #06B6D4, #3B82F6);
           cursor: pointer;
-          box-shadow: 0 4px 8px rgba(6, 182, 212, 0.4);
+          box-shadow: 0 3px 6px rgba(6, 182, 212, 0.4);
           border: 2px solid #0891B2;
         }
         .slider::-moz-range-thumb {
-          height: 22px;
-          width: 22px;
+          height: 20px;
+          width: 20px;
           border-radius: 50%;
           background: linear-gradient(135deg, #06B6D4, #3B82F6);
           cursor: pointer;
           border: 2px solid #0891B2;
-          box-shadow: 0 4px 8px rgba(6, 182, 212, 0.4);
+          box-shadow: 0 3px 6px rgba(6, 182, 212, 0.4);
+        }
+        
+        @media (max-width: 768px) {
+          .slider::-webkit-slider-thumb {
+            height: 22px;
+            width: 22px;
+          }
+          .slider::-moz-range-thumb {
+            height: 22px;
+            width: 22px;
+          }
         }
       `}</style>
     </div>
