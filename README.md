@@ -69,7 +69,7 @@ Released under the **[MIT License](LICENSE)**:
 **Fredys Matos Borges**  
 - Hardware Designer | PCB | IoT | RF  
 - Based in Havana, Cuba — collaborating globally  
-- [GitHub](https://github.com/fredysmatos) | [LinkedIn](https://linkedin.com/in/fredysmatos)
+- [GitHub](https://github.com/MbFredys) | [LinkedIn](https://linkedin.com/in/mbfredys)
 
 > Tools like this are born from real workshop needs — not from hype.
 
