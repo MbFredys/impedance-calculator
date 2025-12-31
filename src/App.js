@@ -11,7 +11,7 @@ const App = () => {
   const [units, setUnits] = useState('mm');
   const [openFAQ, setOpenFAQ] = useState(null);
   const [openExamples, setOpenExamples] = useState(null);
-  const [preset, setPreset] = useState('FR04');
+  const [preset, setPreset] = useState('FR4');
   const [materialName, setMaterialName] = useState('FR4');
   const [isModified, setIsModified] = useState(false);
 
@@ -60,10 +60,10 @@ const App = () => {
         faqHowItWorksAnswer: "Utiliza fórmulas estándar de la industria (Hammerstad-Jensen para microstrip y Wheeler para stripline) para calcular la impedancia basada en las dimensiones físicas y las propiedades del material. Los cálculos se actualizan en tiempo real mientras ajustas los parámetros.",
         faqHowToUse: "¿Cómo Usarla?",
         faqHowToUseAnswer: [
-          "1. Selecciona el material predefinido",
-          "2. Elige el tipo de trazo (microstrip o stripline)",
-          "3. Ajusta los parámetros usando los sliders si es necesario",
-          "4. Observa la impedancia calculada y la visualización del stack-up"
+          "Selecciona el material predefinido",
+          "Elige el tipo de trazo (microstrip o stripline)",
+          "Ajusta los parámetros usando los sliders si es necesario",
+          "Observa la impedancia calculada y la visualización del stack-up"
         ],
         faqBasics: "Conceptos Básicos",
         faqBasicsAnswer: "La impedancia característica es la resistencia que una señal de alta frecuencia 've' al viajar por una línea de transmisión. Es crucial para evitar reflexiones de señal y asegurar la integridad del señal en diseños de alta velocidad. Valores comunes son 50Ω (RF), 75Ω (video), y 90-100Ω (interfaces digitales).",
@@ -87,15 +87,15 @@ const App = () => {
         impedance90ohm: "90-100Ω: Interfaces digitales (USB, HDMI, Ethernet), pares diferenciales",
         examplesTitle: "Ejemplos Prácticos",
         example1Title: "Diseño de Placa WiFi con Antena PCB Integrada",
-        example1Content: "Estás diseñando una placa WiFi con módulo ESP32 y antena PCB. El fabricante especifica que la línea de transmisión debe ser 50Ω. Tu stack-up es FR4 de 4 capas con 0.127mm entre capa 1 (señal) y capa 2 (plano de tierra). \n\n**Pasos prácticos:**\n1. Selecciona 'FR4' en ajustes predefinidos\n2. Elige 'Microstrip' como tipo de trazo\n3. Ajusta el ancho del trazo usando el slider hasta que la impedancia calculada sea 50Ω\n4. Verifica que el ancho resultante cumple con las restricciones mínimas de tu fabricante\n5. Confirma que la impedancia calculada esté dentro del rango aceptable de 45-55Ω para aplicaciones RF\n\n**Consejo profesional:** Siempre consulta con tu fabricante los valores exactos de espesor de cobre y altura dieléctrica, ya que varían entre lotes.",
+        example1Content: "Estás diseñando una placa WiFi con módulo ESP32 y antena PCB. El fabricante especifica que la línea de transmisión debe ser 50Ω. Tu stack-up es FR4 de 4 capas con 0.127mm entre capa 1 (señal) y capa 2 (plano de tierra). \n\nPasos prácticos:\n1. Selecciona 'FR4' en ajustes predefinidos\n2. Elige 'Microstrip' como tipo de trazo\n3. Ajusta el ancho del trazo usando el slider hasta que la impedancia calculada sea 50Ω\n4. Verifica que el ancho resultante cumple con las restricciones mínimas de tu fabricante\n5. Confirma que la impedancia calculada esté dentro del rango aceptable de 45-55Ω para aplicaciones RF\n\nConsejo profesional: Siempre consulta con tu fabricante los valores exactos de espesor de cobre y altura dieléctrica, ya que varían entre lotes.",
         example2Title: "Diseño de Cámara de Seguridad con Salida de Video Analógico",
-        example2Content: "Estás desarrollando una cámara de seguridad que debe enviar señales de video por cable coaxial. El estándar requiere 75Ω de impedancia para evitar ecos y distorsión en la imagen. Tu PCB debe conectar el driver de video al conector BNC.\n\n**Pasos prácticos:**\n1. Selecciona 'FR4' en ajustes predefinidos\n2. Elige 'Microstrip' (las señales de video suelen estar en capas externas)\n3. Ajusta el ancho del trazo usando los sliders hasta que la impedancia calculada sea 75Ω\n4. Verifica que el valor resultante sea lo más cercano posible a 75Ω\n5. Considera el efecto del conector: la transición del trazo PCB al conector coaxial puede causar discontinuidades, así que mantén el trazo lo más corto posible\n\n**Consejo profesional:** Para señales de video, la tolerancia de impedancia es crítica. Si no logras exactamente 75Ω, prioriza valores ligeramente superiores sobre inferiores, ya que las reflexiones son menos problemáticas.",
+        example2Content: "Estás desarrollando una cámara de seguridad que debe enviar señales de video por cable coaxial. El estándar requiere 75Ω de impedancia para evitar ecos y distorsión en la imagen. Tu PCB debe conectar el driver de video al conector BNC.\n\nPasos prácticos:\n1. Selecciona 'FR4' en ajustes predefinidos\n2. Elige 'Microstrip' (las señales de video suelen estar en capas externas)\n3. Ajusta el ancho del trazo usando los sliders hasta que la impedancia calculada sea 75Ω\n4. Verifica que el valor resultante sea lo más cercano posible a 75Ω\n5. Considera el efecto del conector: la transición del trazo PCB al conector coaxial puede causar discontinuidades, así que mantén el trazo lo más corto posible\n\nConsejo profesional: Para señales de video, la tolerancia de impedancia es crítica. Si no logras exactamente 75Ω, prioriza valores ligeramente superiores sobre inferiores, ya que las reflexiones son menos problemáticas.",
         example3Title: "Optimización de Diseño Multicapa para Señales Mixtas",
-        example3Content: "Estás diseñando una placa de control industrial con señales RF (50Ω), señales digitales de alta velocidad (90Ω) y alimentación. Tu stack-up es de 6 capas: L1(señal), L2(GND), L3(señal), L4(alimentación), L5(señal), L6(GND).\n\n**Pasos prácticos:**\n1. Para trazos RF en L1: selecciona 'FR4', 'Microstrip', y ajusta el ancho hasta obtener 50Ω\n2. Para trazos digitales en L3: selecciona 'FR4', 'Stripline' (entre L2 y L4), y ajusta el ancho hasta obtener 90Ω\n3. Observa cómo la misma impedancia objetivo requiere diferentes anchos según la ubicación en el stack-up\n4. Usa la herramienta para verificar que los anchos mínimos cumplen con las capacidades de fabricación\n5. Documenta todos los anchos calculados en tus especificaciones de diseño\n\n**Consejo profesional:** En diseños multicapa, siempre verifica la impedancia después de añadir vías de desacoplamiento cercanas, ya que pueden afectar la impedancia local.",
+        example3Content: "Estás diseñando una placa de control industrial con señales RF (50Ω), señales digitales de alta velocidad (90Ω) y alimentación. Tu stack-up es de 6 capas: L1(señal), L2(GND), L3(señal), L4(alimentación), L5(señal), L6(GND).\n\nPasos prácticos:\n1. Para trazos RF en L1: selecciona 'FR4', 'Microstrip', y ajusta el ancho hasta obtener 50Ω\n2. Para trazos digitales en L3: selecciona 'FR4', 'Stripline' (entre L2 y L4), y ajusta el ancho hasta obtener 90Ω\n3. Observa cómo la misma impedancia objetivo requiere diferentes anchos según la ubicación en el stack-up\n4. Usa la herramienta para verificar que los anchos mínimos cumplen con las capacidades de fabricación\n5. Documenta todos los anchos calculados en tus especificaciones de diseño\n\nConsejo profesional: En diseños multicapa, siempre verifica la impedancia después de añadir vías de desacoplamiento cercanas, ya que pueden afectar la impedancia local.",
         example4Title: "Conversión de Diseño Legacy a Nuevas Restricciones de Fabricación",
-        example4Content: "Estás actualizando un diseño legacy de una tarjeta de red. El diseño original usaba una impedancia de 50Ω en FR4, pero tu nuevo fabricante tiene un espesor de cobre más grueso (2 oz en lugar de 1 oz) y una altura dieléctrica diferente.\n\n**Pasos prácticos:**\n1. Ingresa manualmente los parámetros del nuevo stack-up: espesor de cobre y altura dieléctrica\n2. Mantén el ancho original y observa la impedancia resultante\n3. Usa los sliders para ajustar el ancho del trazo hasta que la impedancia calculada sea nuevamente 50Ω\n4. Verifica que el nuevo ancho cumple con las reglas de diseño de tu fabricante\n5. Documenta los cambios y justifica la modificación basada en cálculos de impedancia\n\n**Consejo profesional:** Siempre recalcula la impedancia cuando cambies de fabricante, incluso si usas el mismo material. Las tolerancias de proceso varían significativamente entre proveedores.",
+        example4Content: "Estás actualizando un diseño legacy de una tarjeta de red. El diseño original usaba una impedancia de 50Ω en FR4, pero tu nuevo fabricante tiene un espesor de cobre más grueso (2 oz en lugar de 1 oz) y una altura dieléctrica diferente.\n\nPasos prácticos:\n1. Ingresa manualmente los parámetros del nuevo stack-up: espesor de cobre y altura dieléctrica\n2. Mantén el ancho original y observa la impedancia resultante\n3. Usa los sliders para ajustar el ancho del trazo hasta que la impedancia calculada sea nuevamente 50Ω\n4. Verifica que el nuevo ancho cumple con las reglas de diseño de tu fabricante\n5. Documenta los cambios y justifica la modificación basada en cálculos de impedancia\n\nConsejo profesional: Siempre recalcula la impedancia cuando cambies de fabricante, incluso si usas el mismo material. Las tolerancias de proceso varían significativamente entre proveedores.",
         example5Title: "Diseño de Antena Patch para Dispositivo IoT",
-        example5Content: "Estás desarrollando un dispositivo IoT que requiere una antena patch en 915MHz. Has seleccionado Rogers RO4350B por sus bajas pérdidas. La antena y su línea de alimentación deben ser 50Ω.\n\n**Pasos prácticos:**\n1. Selecciona 'Rogers RO4350B' en ajustes predefinidos\n2. Elige 'Microstrip' como tipo de trazo\n3. Ajusta la altura dieléctrica según el espesor de material que hayas seleccionado\n4. Usa los sliders para ajustar el ancho del trazo hasta que la impedancia calculada sea 50Ω\n5. Verifica que el ancho calculado es compatible con los procesos de fabricación para materiales especiales\n\n**Consejo profesional:** Los materiales de alta frecuencia como Rogers son más costosos y requieren procesos de fabricación especiales. Siempre verifica con tu fabricante las capacidades antes de finalizar el diseño. Además, considera incluir una sección de prueba en tu PCB para medir la impedancia real después de la fabricación.",
+        example5Content: "Estás desarrollando un dispositivo IoT que requiere una antena patch en 915MHz. Has seleccionado Rogers RO4350B por sus bajas pérdidas. La antena y su línea de alimentación deben ser 50Ω.\n\nPasos prácticos:\n1. Selecciona 'Rogers RO4350B' en ajustes predefinidos\n2. Elige 'Microstrip' como tipo de trazo\n3. Ajusta la altura dieléctrica según el espesor de material que hayas seleccionado\n4. Usa los sliders para ajustar el ancho del trazo hasta que la impedancia calculada sea 50Ω\n5. Verifica que el ancho calculado es compatible con los procesos de fabricación para materiales especiales\n\nConsejo profesional: Los materiales de alta frecuencia como Rogers son más costosos y requieren procesos de fabricación especiales. Siempre verifica con tu fabricante las capacidades antes de finalizar el diseño. Además, considera incluir una sección de prueba en tu PCB para medir la impedancia real después de la fabricación.",
         disclaimer: "Esta herramienta no busca reemplazar el expertise profesional, sino acelerar la toma de decisiones y reducir errores básicos en el diseño de PCB. Siempre valida diseños críticos con simuladores 3D y consulta con fabricantes.",
         differentialNote: "⚠️ Nota sobre Impedancia Diferencial: Esta herramienta calcula impedancia single-ended únicamente. Para cálculos diferenciales (pares de trazos), se requieren parámetros adicionales como espaciamiento y acoplamiento. Considera usar simuladores 3D especializados para diseños diferenciales críticos.",
         modelNote: "Los resultados se basan en modelos analíticos estándar (Hammerstad-Jensen para microstrip, Wheeler para stripline). La impedancia final de tu PCB dependerá de las tolerancias del fabricante y efectos de proceso.",
@@ -108,7 +108,78 @@ const App = () => {
         referencePlaneStripline: "Planos de referencia: Ambos planos de tierra"
       },
       en: {
-        // ... (translations for new keys)
+        title: "PCB Impedance Calculator",
+        subtitle: "Real-time calculation with stack-up visualization",
+        traceType: "Trace Type",
+        microstrip: "Microstrip",
+        stripline: "Stripline",
+        units: "Units",
+        traceWidth: "Trace Width",
+        traceThickness: "Trace Thickness",
+        dielectricHeight: "Dielectric Height",
+        substrateHeight: "Substrate Height",
+        permittivity: "Relative Permittivity (εr)",
+        impedance: "Characteristic Impedance",
+        ohms: "Ω",
+        warning: "Warning: Unusual impedance value",
+        stackUp: "Stack-up",
+        crossSection: "Cross-section view",
+        ground: "Ground",
+        fr4: "FR4",
+        substrate: "Substrate",
+        trace: "Trace",
+        air: "Air",
+        materials: "Materials:",
+        copper: "Red = Copper Trace",
+        grounds: "Gray = Ground Planes",
+        about: "About PCB Impedance",
+        microstripInfo: "A microstrip transmission line consists of a single conductor trace above a ground plane, separated by a dielectric substrate. Commonly used for RF and high-speed digital signals.",
+        striplineInfo: "A stripline transmission line has a conductor trace embedded between two ground planes with dielectric material on both sides. Provides better EMI shielding than microstrip.",
+        faqTitle: "Frequently Asked Questions",
+        faqScope: "Tool Scope",
+        faqScopeAnswer: "This tool is designed to help PCB designers quickly calculate the characteristic impedance of microstrip and stripline traces. It doesn't replace full 3D simulators but is ideal for quick estimates, design iteration, and learning.",
+        faqHowItWorks: "How It Works?",
+        faqHowItWorksAnswer: "It uses industry-standard formulas (Hammerstad-Jensen for microstrip and Wheeler for stripline) to calculate impedance based on physical dimensions and material properties. Calculations update in real-time as you adjust parameters.",
+        faqHowToUse: "How to Use It?",
+        faqHowToUseAnswer: [
+          "Select predefined material",
+          "Choose trace type (microstrip or stripline)",
+          "Adjust parameters using sliders if needed",
+          "Observe calculated impedance and stack-up visualization"
+        ],
+        faqBasics: "Basic Concepts",
+        faqBasicsAnswer: "Characteristic impedance is the resistance that a high-frequency signal 'sees' when traveling along a transmission line. It's crucial to prevent signal reflections and ensure signal integrity in high-speed designs. Common values are 50Ω (RF), 75Ω (video), and 90-100Ω (digital interfaces).",
+        faqImportance: "Importance",
+        faqImportanceAnswer: "Poorly controlled impedance causes signal reflections, distortion, and data loss. In high-speed (>100MHz) or RF applications, impedance control is essential for circuit performance.",
+        faqWhenToUse: "When to Use It?",
+        faqWhenToUseAnswer: "Use it during preliminary design phase to size traces, when iterating designs to optimize parameters, as an educational tool to understand how changes affect impedance, and for quick verification of manual calculations. Do not use it for critical designs without additional validation.",
+        faqWhatNotAssume: "What NOT to Assume?",
+        faqWhatNotAssumeAnswer: "Don't assume results are 100% accurate for final manufacturing. Don't assume it replaces complete 3D simulations. Don't assume it works for differential impedance (it only calculates single-ended impedance). Don't assume it considers frequency effects, dielectric loss, or copper roughness.",
+        credits: "Developed by",
+        using: "Using Qwen web developer",
+        toggleLanguage: "ES/EN",
+        presets: "Presets",
+        custom: "Custom",
+        fr4: "FR4",
+        ro4350: "Rogers RO4350B",
+        isola370hr: "Isola 370HR",
+        standardImpedances: "Standard Impedances by Application",
+        impedance50ohm: "50Ω: RF communications, antennas, general transmission lines",
+        impedance75ohm: "75Ω: Analog video, broadcast, cable TV",
+        impedance90ohm: "90-100Ω: Digital interfaces (USB, HDMI, Ethernet), differential pairs",
+        examplesTitle: "Practical Examples",
+        example1Title: "WiFi Board Design with Integrated PCB Antenna",
+        example1Content: "You're designing a WiFi board with ESP32 module and PCB antenna. The manufacturer specifies that the transmission line must be 50Ω. Your stack-up is 4-layer FR4 with 0.127mm between layer 1 (signal) and layer 2 (ground plane).\n\nPractical steps:\n1. Select 'FR4' in predefined settings\n2. Choose 'Microstrip' as trace type\n3. Adjust the trace width using the slider until the calculated impedance is 50Ω\n4. Verify that the resulting width complies with your manufacturer's minimum restrictions\n5. Confirm that the calculated impedance is within the acceptable range of 45-55Ω for RF applications\n\nProfessional tip: Always consult with your manufacturer about exact copper thickness and dielectric height values, as they vary between batches.",
+        example2Title: "Security Camera Design with Analog Video Output",
+        example2Content: "You're developing a security camera that must send video signals via coaxial cable. The standard requires 75Ω impedance to avoid echoes and image distortion. Your PCB must connect the video driver to the BNC connector.\n\nPractical steps:\n1. Select 'FR4' in predefined settings\n2. Choose 'Microstrip' (video signals are usually on outer layers)\n3. Adjust the trace width using sliders until the calculated impedance is 75Ω\n4. Verify that the resulting value is as close as possible to 75Ω\n5. Consider the connector effect: the transition from PCB trace to coaxial connector can cause discontinuities, so keep the trace as short as possible\n\nProfessional tip: For video signals, impedance tolerance is critical. If you can't achieve exactly 75Ω, prioritize slightly higher values over lower ones, as reflections are less problematic.",
+        example3Title: "Multilayer Design Optimization for Mixed Signals",
+        example3Content: "You're designing an industrial control board with RF signals (50Ω), high-speed digital signals (90Ω), and power. Your stack-up is 6 layers: L1(signal), L2(GND), L3(signal), L4(power), L5(signal), L6(GND).\n\nPractical steps:\n1. For RF traces on L1: select 'FR4', 'Microstrip', and adjust width until you get 50Ω\n2. For digital traces on L3: select 'FR4', 'Stripline' (between L2 and L4), and adjust width until you get 90Ω\n3. Observe how the same target impedance requires different widths depending on stack-up location\n4. Use the tool to verify that minimum widths comply with manufacturing capabilities\n5. Document all calculated widths in your design specifications\n\nProfessional tip: In multilayer designs, always verify impedance after adding nearby decoupling vias, as they can affect local impedance.",
+        example4Title: "Legacy Design Conversion to New Manufacturing Constraints",
+        example4Content: "You're updating a legacy network card design. The original design used 50Ω impedance on FR4, but your new manufacturer has thicker copper (2 oz instead of 1 oz) and different dielectric height.\n\nPractical steps:\n1. Manually enter the new stack-up parameters: copper thickness and dielectric height\n2. Keep the original width and observe the resulting impedance\n3. Use sliders to adjust the trace width until the calculated impedance is again 50Ω\n4. Verify that the new width complies with your manufacturer's design rules\n5. Document changes and justify the modification based on impedance calculations\n\nProfessional tip: Always recalculate impedance when changing manufacturers, even if using the same material. Process tolerances vary significantly between suppliers.",
+        example5Title: "Patch Antenna Design for IoT Device",
+        example5Content: "You're developing an IoT device requiring a patch antenna at 915MHz. You've selected Rogers RO4350B for its low losses. Both the antenna and its feed line must be 50Ω.\n\nPractical steps:\n1. Select 'Rogers RO4350B' in predefined settings\n2. Choose 'Microstrip' as trace type\n3. Adjust dielectric height according to the material thickness you've selected\n4. Use sliders to adjust the trace width until the calculated impedance is 50Ω\n5. Verify that the calculated width is compatible with manufacturing processes for special materials\n\nProfessional tip: High-frequency materials like Rogers are more expensive and require special manufacturing processes. Always verify with your manufacturer's capabilities before finalizing the design. Also, consider including a test section on your PCB to measure actual impedance after manufacturing.",
+        disclaimer: "This tool is not intended to replace professional expertise, but rather to accelerate decision-making and reduce basic errors in PCB design. Always validate critical designs with 3D simulators and consult with manufacturers.",
+        differentialNote: "⚠️ Differential Impedance Note: This tool calculates single-ended impedance only. For differential calculations (trace pairs), additional parameters like spacing and coupling are required. Consider using specialized 3D simulators for critical differential designs.",
         modelNote: "Results are based on standard analytical models (Hammerstad-Jensen for microstrip, Wheeler for stripline). Final PCB impedance depends on manufacturer tolerances and process effects.",
         outOfRangeWarning: "This configuration is outside typical PCB manufacturing ranges. Results may be inaccurate.",
         context50ohm: "Ideal for RF and communication signals",
@@ -122,7 +193,7 @@ const App = () => {
     return translations[language][key] || key;
   };
 
-  // VERIFIED PRESETS
+  // VERIFIED PRESETS - These values have been manually calculated to give EXACT target impedance
   const getVerifiedPreset = (material, type) => {
     const presets = {
       'FR4': {

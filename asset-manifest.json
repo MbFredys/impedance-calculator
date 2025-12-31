@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/impedance-calculator/static/css/main.090e531b.css",
-    "main.js": "/impedance-calculator/static/js/main.f8b5a9fb.js",
+    "main.css": "/impedance-calculator/static/css/main.0ffb9f5b.css",
+    "main.js": "/impedance-calculator/static/js/main.2eeaeb3c.js",
     "index.html": "/impedance-calculator/index.html",
-    "main.090e531b.css.map": "/impedance-calculator/static/css/main.090e531b.css.map",
-    "main.f8b5a9fb.js.map": "/impedance-calculator/static/js/main.f8b5a9fb.js.map"
+    "main.0ffb9f5b.css.map": "/impedance-calculator/static/css/main.0ffb9f5b.css.map",
+    "main.2eeaeb3c.js.map": "/impedance-calculator/static/js/main.2eeaeb3c.js.map"
   },
   "entrypoints": [
-    "static/css/main.090e531b.css",
-    "static/js/main.f8b5a9fb.js"
+    "static/css/main.0ffb9f5b.css",
+    "static/js/main.2eeaeb3c.js"
   ]
 }
