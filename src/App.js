@@ -60,10 +60,10 @@ const App = () => {
         faqHowItWorksAnswer: "Utiliza fórmulas estándar de la industria (Hammerstad-Jensen para microstrip y Wheeler para stripline) para calcular la impedancia basada en las dimensiones físicas y las propiedades del material. Los cálculos se actualizan en tiempo real mientras ajustas los parámetros.",
         faqHowToUse: "¿Cómo Usarla?",
         faqHowToUseAnswer: [
-          "Selecciona el material predefinido",
-          "Elige el tipo de trazo (microstrip o stripline)",
-          "Ajusta los parámetros usando los sliders si es necesario",
-          "Observa la impedancia calculada y la visualización del stack-up"
+          "1. Selecciona el material predefinido",
+          "2. Elige el tipo de trazo (microstrip o stripline)",
+          "3. Ajusta los parámetros usando los sliders si es necesario",
+          "4. Observa la impedancia calculada y la visualización del stack-up"
         ],
         faqBasics: "Conceptos Básicos",
         faqBasicsAnswer: "La impedancia característica es la resistencia que una señal de alta frecuencia 've' al viajar por una línea de transmisión. Es crucial para evitar reflexiones de señal y asegurar la integridad del señal en diseños de alta velocidad. Valores comunes son 50Ω (RF), 75Ω (video), y 90-100Ω (interfaces digitales).",
@@ -87,15 +87,15 @@ const App = () => {
         impedance90ohm: "90-100Ω: Interfaces digitales (USB, HDMI, Ethernet), pares diferenciales",
         examplesTitle: "Ejemplos Prácticos",
         example1Title: "Diseño de Placa WiFi con Antena PCB Integrada",
-        example1Content: "Estás diseñando una placa WiFi con módulo ESP32 y antena PCB. El fabricante especifica que la línea de transmisión debe ser 50Ω. Tu stack-up es FR4 de 4 capas con 0.127mm entre capa 1 (señal) y capa 2 (plano de tierra). \n\nPasos prácticos:\n1. Selecciona 'FR4' en ajustes predefinidos\n2. Elige 'Microstrip' como tipo de trazo\n3. Ajusta el ancho del trazo usando el slider hasta que la impedancia calculada sea 50Ω\n4. Verifica que el ancho resultante cumple con las restricciones mínimas de tu fabricante\n5. Confirma que la impedancia calculada esté dentro del rango aceptable de 45-55Ω para aplicaciones RF\n\nConsejo profesional: Siempre consulta con tu fabricante los valores exactos de espesor de cobre y altura dieléctrica, ya que varían entre lotes.",
+        example1Content: "Estás diseñando una placa WiFi con módulo ESP32 y antena PCB. El fabricante especifica que la línea de transmisión debe ser 50Ω. Tu stack-up es FR4 de 4 capas con 0.127mm entre capa 1 (señal) y capa 2 (plano de tierra). \n\n**Pasos prácticos:**\n1. Selecciona 'FR4' en ajustes predefinidos\n2. Elige 'Microstrip' como tipo de trazo\n3. Ajusta el ancho del trazo usando el slider hasta que la impedancia calculada sea 50Ω\n4. Verifica que el ancho resultante cumple con las restricciones mínimas de tu fabricante\n5. Confirma que la impedancia calculada esté dentro del rango aceptable de 45-55Ω para aplicaciones RF\n\n**Consejo profesional:** Siempre consulta con tu fabricante los valores exactos de espesor de cobre y altura dieléctrica, ya que varían entre lotes.",
         example2Title: "Diseño de Cámara de Seguridad con Salida de Video Analógico",
-        example2Content: "Estás desarrollando una cámara de seguridad que debe enviar señales de video por cable coaxial. El estándar requiere 75Ω de impedancia para evitar ecos y distorsión en la imagen. Tu PCB debe conectar el driver de video al conector BNC.\n\nPasos prácticos:\n1. Selecciona 'FR4' en ajustes predefinidos\n2. Elige 'Microstrip' (las señales de video suelen estar en capas externas)\n3. Ajusta el ancho del trazo usando los sliders hasta que la impedancia calculada sea 75Ω\n4. Verifica que el valor resultante sea lo más cercano posible a 75Ω\n5. Considera el efecto del conector: la transición del trazo PCB al conector coaxial puede causar discontinuidades, así que mantén el trazo lo más corto posible\n\nConsejo profesional: Para señales de video, la tolerancia de impedancia es crítica. Si no logras exactamente 75Ω, prioriza valores ligeramente superiores sobre inferiores, ya que las reflexiones son menos problemáticas.",
+        example2Content: "Estás desarrollando una cámara de seguridad que debe enviar señales de video por cable coaxial. El estándar requiere 75Ω de impedancia para evitar ecos y distorsión en la imagen. Tu PCB debe conectar el driver de video al conector BNC.\n\n**Pasos prácticos:**\n1. Selecciona 'FR4' en ajustes predefinidos\n2. Elige 'Microstrip' (las señales de video suelen estar en capas externas)\n3. Ajusta el ancho del trazo usando los sliders hasta que la impedancia calculada sea 75Ω\n4. Verifica que el valor resultante sea lo más cercano posible a 75Ω\n5. Considera el efecto del conector: la transición del trazo PCB al conector coaxial puede causar discontinuidades, así que mantén el trazo lo más corto posible\n\n**Consejo profesional:** Para señales de video, la tolerancia de impedancia es crítica. Si no logras exactamente 75Ω, prioriza valores ligeramente superiores sobre inferiores, ya que las reflexiones son menos problemáticas.",
         example3Title: "Optimización de Diseño Multicapa para Señales Mixtas",
-        example3Content: "Estás diseñando una placa de control industrial con señales RF (50Ω), señales digitales de alta velocidad (90Ω) y alimentación. Tu stack-up es de 6 capas: L1(señal), L2(GND), L3(señal), L4(alimentación), L5(señal), L6(GND).\n\nPasos prácticos:\n1. Para trazos RF en L1: selecciona 'FR4', 'Microstrip', y ajusta el ancho hasta obtener 50Ω\n2. Para trazos digitales en L3: selecciona 'FR4', 'Stripline' (entre L2 y L4), y ajusta el ancho hasta obtener 90Ω\n3. Observa cómo la misma impedancia objetivo requiere diferentes anchos según la ubicación en el stack-up\n4. Usa la herramienta para verificar que los anchos mínimos cumplen con las capacidades de fabricación\n5. Documenta todos los anchos calculados en tus especificaciones de diseño\n\nConsejo profesional: En diseños multicapa, siempre verifica la impedancia después de añadir vías de desacoplamiento cercanas, ya que pueden afectar la impedancia local.",
+        example3Content: "Estás diseñando una placa de control industrial con señales RF (50Ω), señales digitales de alta velocidad (90Ω) y alimentación. Tu stack-up es de 6 capas: L1(señal), L2(GND), L3(señal), L4(alimentación), L5(señal), L6(GND).\n\n**Pasos prácticos:**\n1. Para trazos RF en L1: selecciona 'FR4', 'Microstrip', y ajusta el ancho hasta obtener 50Ω\n2. Para trazos digitales en L3: selecciona 'FR4', 'Stripline' (entre L2 y L4), y ajusta el ancho hasta obtener 90Ω\n3. Observa cómo la misma impedancia objetivo requiere diferentes anchos según la ubicación en el stack-up\n4. Usa la herramienta para verificar que los anchos mínimos cumplen con las capacidades de fabricación\n5. Documenta todos los anchos calculados en tus especificaciones de diseño\n\n**Consejo profesional:** En diseños multicapa, siempre verifica la impedancia después de añadir vías de desacoplamiento cercanas, ya que pueden afectar la impedancia local.",
         example4Title: "Conversión de Diseño Legacy a Nuevas Restricciones de Fabricación",
-        example4Content: "Estás actualizando un diseño legacy de una tarjeta de red. El diseño original usaba una impedancia de 50Ω en FR4, pero tu nuevo fabricante tiene un espesor de cobre más grueso (2 oz en lugar de 1 oz) y una altura dieléctrica diferente.\n\nPasos prácticos:\n1. Ingresa manualmente los parámetros del nuevo stack-up: espesor de cobre y altura dieléctrica\n2. Mantén el ancho original y observa la impedancia resultante\n3. Usa los sliders para ajustar el ancho del trazo hasta que la impedancia calculada sea nuevamente 50Ω\n4. Verifica que el nuevo ancho cumple con las reglas de diseño de tu fabricante\n5. Documenta los cambios y justifica la modificación basada en cálculos de impedancia\n\nConsejo profesional: Siempre recalcula la impedancia cuando cambies de fabricante, incluso si usas el mismo material. Las tolerancias de proceso varían significativamente entre proveedores.",
+        example4Content: "Estás actualizando un diseño legacy de una tarjeta de red. El diseño original usaba una impedancia de 50Ω en FR4, pero tu nuevo fabricante tiene un espesor de cobre más grueso (2 oz en lugar de 1 oz) y una altura dieléctrica diferente.\n\n**Pasos prácticos:**\n1. Ingresa manualmente los parámetros del nuevo stack-up: espesor de cobre y altura dieléctrica\n2. Mantén el ancho original y observa la impedancia resultante\n3. Usa los sliders para ajustar el ancho del trazo hasta que la impedancia calculada sea nuevamente 50Ω\n4. Verifica que el nuevo ancho cumple con las reglas de diseño de tu fabricante\n5. Documenta los cambios y justifica la modificación basada en cálculos de impedancia\n\n**Consejo profesional:** Siempre recalcula la impedancia cuando cambies de fabricante, incluso si usas el mismo material. Las tolerancias de proceso varían significativamente entre proveedores.",
         example5Title: "Diseño de Antena Patch para Dispositivo IoT",
-        example5Content: "Estás desarrollando un dispositivo IoT que requiere una antena patch en 915MHz. Has seleccionado Rogers RO4350B por sus bajas pérdidas. La antena y su línea de alimentación deben ser 50Ω.\n\nPasos prácticos:\n1. Selecciona 'Rogers RO4350B' en ajustes predefinidos\n2. Elige 'Microstrip' como tipo de trazo\n3. Ajusta la altura dieléctrica según el espesor de material que hayas seleccionado\n4. Usa los sliders para ajustar el ancho del trazo hasta que la impedancia calculada sea 50Ω\n5. Verifica que el ancho calculado es compatible con los procesos de fabricación para materiales especiales\n\nConsejo profesional: Los materiales de alta frecuencia como Rogers son más costosos y requieren procesos de fabricación especiales. Siempre verifica con tu fabricante las capacidades antes de finalizar el diseño. Además, considera incluir una sección de prueba en tu PCB para medir la impedancia real después de la fabricación.",
+        example5Content: "Estás desarrollando un dispositivo IoT que requiere una antena patch en 915MHz. Has seleccionado Rogers RO4350B por sus bajas pérdidas. La antena y su línea de alimentación deben ser 50Ω.\n\n**Pasos prácticos:**\n1. Selecciona 'Rogers RO4350B' en ajustes predefinidos\n2. Elige 'Microstrip' como tipo de trazo\n3. Ajusta la altura dieléctrica según el espesor de material que hayas seleccionado\n4. Usa los sliders para ajustar el ancho del trazo hasta que la impedancia calculada sea 50Ω\n5. Verifica que el ancho calculado es compatible con los procesos de fabricación para materiales especiales\n\n**Consejo profesional:** Los materiales de alta frecuencia como Rogers son más costosos y requieren procesos de fabricación especiales. Siempre verifica con tu fabricante las capacidades antes de finalizar el diseño. Además, considera incluir una sección de prueba en tu PCB para medir la impedancia real después de la fabricación.",
         disclaimer: "Esta herramienta no busca reemplazar el expertise profesional, sino acelerar la toma de decisiones y reducir errores básicos en el diseño de PCB. Siempre valida diseños críticos con simuladores 3D y consulta con fabricantes.",
         differentialNote: "⚠️ Nota sobre Impedancia Diferencial: Esta herramienta calcula impedancia single-ended únicamente. Para cálculos diferenciales (pares de trazos), se requieren parámetros adicionales como espaciamiento y acoplamiento. Considera usar simuladores 3D especializados para diseños diferenciales críticos.",
         modelNote: "Los resultados se basan en modelos analíticos estándar (Hammerstad-Jensen para microstrip, Wheeler para stripline). La impedancia final de tu PCB dependerá de las tolerancias del fabricante y efectos de proceso.",
@@ -142,10 +142,10 @@ const App = () => {
         faqHowItWorksAnswer: "It uses industry-standard formulas (Hammerstad-Jensen for microstrip and Wheeler for stripline) to calculate impedance based on physical dimensions and material properties. Calculations update in real-time as you adjust parameters.",
         faqHowToUse: "How to Use It?",
         faqHowToUseAnswer: [
-          "Select predefined material",
-          "Choose trace type (microstrip or stripline)",
-          "Adjust parameters using sliders if needed",
-          "Observe calculated impedance and stack-up visualization"
+          "1. Select predefined material",
+          "2. Choose trace type (microstrip or stripline)",
+          "3. Adjust parameters using sliders if needed",
+          "4. Observe calculated impedance and stack-up visualization"
         ],
         faqBasics: "Basic Concepts",
         faqBasicsAnswer: "Characteristic impedance is the resistance that a high-frequency signal 'sees' when traveling along a transmission line. It's crucial to prevent signal reflections and ensure signal integrity in high-speed designs. Common values are 50Ω (RF), 75Ω (video), and 90-100Ω (digital interfaces).",
@@ -169,15 +169,15 @@ const App = () => {
         impedance90ohm: "90-100Ω: Digital interfaces (USB, HDMI, Ethernet), differential pairs",
         examplesTitle: "Practical Examples",
         example1Title: "WiFi Board Design with Integrated PCB Antenna",
-        example1Content: "You're designing a WiFi board with ESP32 module and PCB antenna. The manufacturer specifies that the transmission line must be 50Ω. Your stack-up is 4-layer FR4 with 0.127mm between layer 1 (signal) and layer 2 (ground plane).\n\nPractical steps:\n1. Select 'FR4' in predefined settings\n2. Choose 'Microstrip' as trace type\n3. Adjust the trace width using the slider until the calculated impedance is 50Ω\n4. Verify that the resulting width complies with your manufacturer's minimum restrictions\n5. Confirm that the calculated impedance is within the acceptable range of 45-55Ω for RF applications\n\nProfessional tip: Always consult with your manufacturer about exact copper thickness and dielectric height values, as they vary between batches.",
+        example1Content: "You're designing a WiFi board with ESP32 module and PCB antenna. The manufacturer specifies that the transmission line must be 50Ω. Your stack-up is 4-layer FR4 with 0.127mm between layer 1 (signal) and layer 2 (ground plane).\n\n**Practical steps:**\n1. Select 'FR4' in predefined settings\n2. Choose 'Microstrip' as trace type\n3. Adjust the trace width using the slider until the calculated impedance is 50Ω\n4. Verify that the resulting width complies with your manufacturer's minimum restrictions\n5. Confirm that the calculated impedance is within the acceptable range of 45-55Ω for RF applications\n\n**Professional tip:** Always consult with your manufacturer about exact copper thickness and dielectric height values, as they vary between batches.",
         example2Title: "Security Camera Design with Analog Video Output",
-        example2Content: "You're developing a security camera that must send video signals via coaxial cable. The standard requires 75Ω impedance to avoid echoes and image distortion. Your PCB must connect the video driver to the BNC connector.\n\nPractical steps:\n1. Select 'FR4' in predefined settings\n2. Choose 'Microstrip' (video signals are usually on outer layers)\n3. Adjust the trace width using sliders until the calculated impedance is 75Ω\n4. Verify that the resulting value is as close as possible to 75Ω\n5. Consider the connector effect: the transition from PCB trace to coaxial connector can cause discontinuities, so keep the trace as short as possible\n\nProfessional tip: For video signals, impedance tolerance is critical. If you can't achieve exactly 75Ω, prioritize slightly higher values over lower ones, as reflections are less problematic.",
+        example2Content: "You're developing a security camera that must send video signals via coaxial cable. The standard requires 75Ω impedance to avoid echoes and image distortion. Your PCB must connect the video driver to the BNC connector.\n\n**Practical steps:**\n1. Select 'FR4' in predefined settings\n2. Choose 'Microstrip' (video signals are usually on outer layers)\n3. Adjust the trace width using sliders until the calculated impedance is 75Ω\n4. Verify that the resulting value is as close as possible to 75Ω\n5. Consider the connector effect: the transition from PCB trace to coaxial connector can cause discontinuities, so keep the trace as short as possible\n\n**Professional tip:** For video signals, impedance tolerance is critical. If you can't achieve exactly 75Ω, prioritize slightly higher values over lower ones, as reflections are less problematic.",
         example3Title: "Multilayer Design Optimization for Mixed Signals",
-        example3Content: "You're designing an industrial control board with RF signals (50Ω), high-speed digital signals (90Ω), and power. Your stack-up is 6 layers: L1(signal), L2(GND), L3(signal), L4(power), L5(signal), L6(GND).\n\nPractical steps:\n1. For RF traces on L1: select 'FR4', 'Microstrip', and adjust width until you get 50Ω\n2. For digital traces on L3: select 'FR4', 'Stripline' (between L2 and L4), and adjust width until you get 90Ω\n3. Observe how the same target impedance requires different widths depending on stack-up location\n4. Use the tool to verify that minimum widths comply with manufacturing capabilities\n5. Document all calculated widths in your design specifications\n\nProfessional tip: In multilayer designs, always verify impedance after adding nearby decoupling vias, as they can affect local impedance.",
+        example3Content: "You're designing an industrial control board with RF signals (50Ω), high-speed digital signals (90Ω), and power. Your stack-up is 6 layers: L1(signal), L2(GND), L3(signal), L4(power), L5(signal), L6(GND).\n\n**Practical steps:**\n1. For RF traces on L1: select 'FR4', 'Microstrip', and adjust width until you get 50Ω\n2. For digital traces on L3: select 'FR4', 'Stripline' (between L2 and L4), and adjust width until you get 90Ω\n3. Observe how the same target impedance requires different widths depending on stack-up location\n4. Use the tool to verify that minimum widths comply with manufacturing capabilities\n5. Document all calculated widths in your design specifications\n\n**Professional tip:** In multilayer designs, always verify impedance after adding nearby decoupling vias, as they can affect local impedance.",
         example4Title: "Legacy Design Conversion to New Manufacturing Constraints",
-        example4Content: "You're updating a legacy network card design. The original design used 50Ω impedance on FR4, but your new manufacturer has thicker copper (2 oz instead of 1 oz) and different dielectric height.\n\nPractical steps:\n1. Manually enter the new stack-up parameters: copper thickness and dielectric height\n2. Keep the original width and observe the resulting impedance\n3. Use sliders to adjust the trace width until the calculated impedance is again 50Ω\n4. Verify that the new width complies with your manufacturer's design rules\n5. Document changes and justify the modification based on impedance calculations\n\nProfessional tip: Always recalculate impedance when changing manufacturers, even if using the same material. Process tolerances vary significantly between suppliers.",
+        example4Content: "You're updating a legacy network card design. The original design used 50Ω impedance on FR4, but your new manufacturer has thicker copper (2 oz instead of 1 oz) and different dielectric height.\n\n**Practical steps:**\n1. Manually enter the new stack-up parameters: copper thickness and dielectric height\n2. Keep the original width and observe the resulting impedance\n3. Use sliders to adjust the trace width until the calculated impedance is again 50Ω\n4. Verify that the new width complies with your manufacturer's design rules\n5. Document changes and justify the modification based on impedance calculations\n\n**Professional tip:** Always recalculate impedance when changing manufacturers, even if using the same material. Process tolerances vary significantly between suppliers.",
         example5Title: "Patch Antenna Design for IoT Device",
-        example5Content: "You're developing an IoT device requiring a patch antenna at 915MHz. You've selected Rogers RO4350B for its low losses. Both the antenna and its feed line must be 50Ω.\n\nPractical steps:\n1. Select 'Rogers RO4350B' in predefined settings\n2. Choose 'Microstrip' as trace type\n3. Adjust dielectric height according to the material thickness you've selected\n4. Use sliders to adjust the trace width until the calculated impedance is 50Ω\n5. Verify that the calculated width is compatible with manufacturing processes for special materials\n\nProfessional tip: High-frequency materials like Rogers are more expensive and require special manufacturing processes. Always verify with your manufacturer's capabilities before finalizing the design. Also, consider including a test section on your PCB to measure actual impedance after manufacturing.",
+        example5Content: "You're developing an IoT device requiring a patch antenna at 915MHz. You've selected Rogers RO4350B for its low losses. Both the antenna and its feed line must be 50Ω.\n\n**Practical steps:**\n1. Select 'Rogers RO4350B' in predefined settings\n2. Choose 'Microstrip' as trace type\n3. Adjust dielectric height according to the material thickness you've selected\n4. Use sliders to adjust the trace width until the calculated impedance is 50Ω\n5. Verify that the calculated width is compatible with manufacturing processes for special materials\n\n**Professional tip:** High-frequency materials like Rogers are more expensive and require special manufacturing processes. Always verify with your manufacturer's capabilities before finalizing the design. Also, consider including a test section on your PCB to measure actual impedance after manufacturing.",
         disclaimer: "This tool is not intended to replace professional expertise, but rather to accelerate decision-making and reduce basic errors in PCB design. Always validate critical designs with 3D simulators and consult with manufacturers.",
         differentialNote: "⚠️ Differential Impedance Note: This tool calculates single-ended impedance only. For differential calculations (trace pairs), additional parameters like spacing and coupling are required. Consider using specialized 3D simulators for critical differential designs.",
         modelNote: "Results are based on standard analytical models (Hammerstad-Jensen for microstrip, Wheeler for stripline). Final PCB impedance depends on manufacturer tolerances and process effects.",
@@ -343,12 +343,12 @@ const App = () => {
     return "";
   };
 
-  // Stack-up visualization dimensions
-  const svgWidth = 550;
-  const svgHeight = 320;
-  const margin = 40;
-  const availableHeight = svgHeight - 2 * margin;
-  const availableWidth = svgWidth - 2 * margin;
+  // Stack-up visualization dimensions - BASE DIMENSIONS
+  const baseSvgWidth = 440;
+  const baseSvgHeight = 256;
+  const margin = 32;
+  const availableHeight = baseSvgHeight - 2 * margin;
+  const availableWidth = baseSvgWidth - 2 * margin;
 
   const contentWidth = availableWidth * 0.7;
   const contentHeight = availableHeight * 0.8;
@@ -361,13 +361,13 @@ const App = () => {
   
   const scaleFactor = contentHeight / Math.max(totalActualHeight * unitFactor, 0.01);
   
-  const traceHeight = Math.max(traceThickness * unitFactor * scaleFactor, 12);
+  const traceHeight = Math.max(traceThickness * unitFactor * scaleFactor, 10);
   const dielectricHeightVis = traceType === 'microstrip' 
-    ? Math.max(dielectricHeight * unitFactor * scaleFactor, 20)
-    : Math.max((substrateHeight * unitFactor / 2) * scaleFactor, 20);
+    ? Math.max(dielectricHeight * unitFactor * scaleFactor, 16)
+    : Math.max((substrateHeight * unitFactor / 2) * scaleFactor, 16);
   const substrateHeightVis = traceType === 'microstrip' 
     ? 0 
-    : Math.max((substrateHeight * unitFactor / 2) * scaleFactor, 20);
+    : Math.max((substrateHeight * unitFactor / 2) * scaleFactor, 16);
 
   const totalVisHeight = traceHeight + dielectricHeightVis + substrateHeightVis;
   const startY = contentY + (contentHeight - totalVisHeight) / 2;
@@ -420,10 +420,11 @@ const App = () => {
           <p className="text-blue-200 text-xl max-w-3xl mx-auto">{t('subtitle')}</p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-10">
+        {/* MOBILE-FIRST RESPONSIVE LAYOUT */}
+        <div className="space-y-10 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-10">
           {/* Controls Panel */}
-          <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8 shadow-2xl">
-            <div className="space-y-7">
+          <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-6 lg:p-8 shadow-2xl">
+            <div className="space-y-6 lg:space-y-7">
               {/* Material Selection */}
               <div>
                 <label className="block text-lg font-semibold text-cyan-300 mb-3">
@@ -446,10 +447,10 @@ const App = () => {
                 <label className="block text-lg font-semibold text-cyan-300 mb-3">
                   {t('traceType')}
                 </label>
-                <div className="flex space-x-3">
+                <div className="flex space-x-2 lg:space-x-3">
                   <button
                     onClick={() => handleTraceTypeChange('microstrip')}
-                    className={`flex-1 py-3 px-6 rounded-xl font-medium transition-all duration-300 ${
+                    className={`flex-1 py-2.5 lg:py-3 px-4 lg:px-6 rounded-xl font-medium transition-all duration-300 ${
                       traceType === 'microstrip'
                         ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-lg'
                         : 'bg-slate-700/50 text-slate-300 hover:bg-slate-700'
@@ -459,7 +460,7 @@ const App = () => {
                   </button>
                   <button
                     onClick={() => handleTraceTypeChange('stripline')}
-                    className={`flex-1 py-3 px-6 rounded-xl font-medium transition-all duration-300 ${
+                    className={`flex-1 py-2.5 lg:py-3 px-4 lg:px-6 rounded-xl font-medium transition-all duration-300 ${
                       traceType === 'stripline'
                         ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-lg'
                         : 'bg-slate-700/50 text-slate-300 hover:bg-slate-700'
@@ -487,7 +488,7 @@ const App = () => {
               </div>
 
               {/* Input Sliders */}
-              <div className="space-y-5">
+              <div className="space-y-4 lg:space-y-5">
                 <div>
                   <label className="block text-sm font-semibold text-slate-300 mb-2">
                     {t('traceWidth')}: <span className="text-cyan-400">{traceWidth.toFixed(3)} {units}</span>
@@ -567,9 +568,9 @@ const App = () => {
               </div>
 
               {/* Result Display */}
-              <div className="bg-gradient-to-r from-cyan-600/20 to-blue-600/20 rounded-2xl p-7 text-center border border-cyan-500/30">
+              <div className="bg-gradient-to-r from-cyan-600/20 to-blue-600/20 rounded-2xl p-6 lg:p-7 text-center border border-cyan-500/30">
                 <div className="text-cyan-300 text-lg font-medium mb-2">{t('impedance')}</div>
-                <div className="text-5xl font-bold text-white">{impedance.toFixed(1)} {t('ohms')}</div>
+                <div className="text-4xl lg:text-5xl font-bold text-white">{impedance.toFixed(1)} {t('ohms')}</div>
                 <div className="text-cyan-200 text-sm mt-2">
                   {getImpedanceContext()}
                 </div>
@@ -588,10 +589,10 @@ const App = () => {
             </div>
           </div>
 
-          {/* Visualization Panel */}
-          <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8 shadow-2xl">
+          {/* Visualization Panel - CENTERED AND MOBILE-RESIZED */}
+          <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-6 lg:p-8 shadow-2xl">
             <div className="text-center mb-6">
-              <h2 className="text-2xl font-bold text-white mb-2">
+              <h2 className="text-xl lg:text-2xl font-bold text-white mb-2">
                 {traceType === 'microstrip' ? t('microstrip') : t('stripline')} {t('stackUp')}
               </h2>
               <p className="text-slate-400">{t('crossSection')}</p>
@@ -601,7 +602,13 @@ const App = () => {
             </div>
             
             <div className="flex justify-center">
-              <svg width={svgWidth} height={svgHeight} className="border border-slate-600 rounded-xl bg-slate-900/30">
+              {/* SVG with responsive sizing - 10% smaller on mobile only */}
+              <svg 
+                width={baseSvgWidth} 
+                height={baseSvgHeight} 
+                className="border border-slate-600 rounded-xl bg-slate-900/30 w-full max-w-full lg:max-w-none"
+                style={{ maxWidth: '100%', width: '100%' }}
+              >
                 {/* Ground Plane (Microstrip) or Bottom Ground (Stripline) */}
                 {traceType === 'stripline' && (
                   <>
@@ -609,15 +616,15 @@ const App = () => {
                       x={contentX}
                       y={startY + traceHeight + dielectricHeightVis + substrateHeightVis}
                       width={contentWidth}
-                      height={15}
+                      height={12}
                       fill="#64748B"
-                      rx="3"
+                      rx="2"
                     />
                     <text
                       x={contentX + contentWidth / 2}
-                      y={startY + traceHeight + dielectricHeightVis + substrateHeightVis + 24}
+                      y={startY + traceHeight + dielectricHeightVis + substrateHeightVis + 20}
                       textAnchor="middle"
-                      className="text-sm fill-slate-300 font-medium"
+                      className="text-xs fill-slate-300 font-medium"
                     >
                       {t('ground')}
                     </text>
@@ -634,7 +641,7 @@ const App = () => {
                   opacity="0.9"
                 />
                 <text
-                  x={contentX - 15}
+                  x={contentX - 12}
                   y={
                     traceType === 'microstrip'
                       ? startY + traceHeight + dielectricHeightVis / 2
@@ -642,7 +649,7 @@ const App = () => {
                   }
                   textAnchor="end"
                   dominantBaseline="middle"
-                  className="text-sm fill-slate-200 font-medium"
+                  className="text-xs fill-slate-200 font-medium"
                 >
                   {materialName}
                 </text>
@@ -661,7 +668,7 @@ const App = () => {
                   y={startY + traceHeight / 2}
                   textAnchor="middle"
                   dominantBaseline="middle"
-                  className="text-sm fill-white font-bold"
+                  className="text-xs fill-white font-bold"
                 >
                   {t('trace')}
                 </text>
@@ -674,15 +681,15 @@ const App = () => {
                       x={contentX}
                       y={startY + traceHeight + dielectricHeightVis}
                       width={contentWidth}
-                      height={Math.max(contentY + contentHeight - (startY + traceHeight + dielectricHeightVis), 15)}
+                      height={Math.max(contentY + contentHeight - (startY + traceHeight + dielectricHeightVis), 12)}
                       fill="#38BDF8"
                       opacity="0.15"
                     />
                     <text
-                      x={contentX - 15}
-                      y={startY + traceHeight + dielectricHeightVis + 22}
+                      x={contentX - 12}
+                      y={startY + traceHeight + dielectricHeightVis + 18}
                       textAnchor="end"
-                      className="text-sm fill-blue-400 font-medium"
+                      className="text-xs fill-blue-400 font-medium"
                     >
                       {t('air')}
                     </text>
@@ -699,28 +706,28 @@ const App = () => {
                       opacity="0.9"
                     />
                     <text
-                      x={contentX - 15}
+                      x={contentX - 12}
                       y={startY + dielectricHeightVis / 2}
                       textAnchor="end"
                       dominantBaseline="middle"
-                      className="text-sm fill-slate-200 font-medium"
+                      className="text-xs fill-slate-200 font-medium"
                     >
                       {materialName}
                     </text>
                     {/* Top ground plane */}
                     <rect
                       x={contentX}
-                      y={startY - 15}
+                      y={startY - 12}
                       width={contentWidth}
-                      height={15}
+                      height={12}
                       fill="#64748B"
-                      rx="3"
+                      rx="2"
                     />
                     <text
                       x={contentX + contentWidth / 2}
-                      y={startY - 22}
+                      y={startY - 18}
                       textAnchor="middle"
-                      className="text-sm fill-slate-300 font-medium"
+                      className="text-xs fill-slate-300 font-medium"
                     >
                       {t('ground')}
                     </text>
@@ -734,15 +741,15 @@ const App = () => {
                       x={contentX}
                       y={startY + traceHeight + dielectricHeightVis}
                       width={contentWidth}
-                      height={15}
+                      height={12}
                       fill="#64748B"
-                      rx="3"
+                      rx="2"
                     />
                     <text
                       x={contentX + contentWidth / 2}
-                      y={startY + traceHeight + dielectricHeightVis + 24}
+                      y={startY + traceHeight + dielectricHeightVis + 20}
                       textAnchor="middle"
-                      className="text-sm fill-slate-300 font-medium"
+                      className="text-xs fill-slate-300 font-medium"
                     >
                       {t('ground')}
                     </text>
@@ -753,26 +760,26 @@ const App = () => {
                 {traceType === 'microstrip' ? (
                   <>
                     <line
-                      x1={contentX + contentWidth + 20}
+                      x1={contentX + contentWidth + 16}
                       y1={startY + traceHeight}
-                      x2={contentX + contentWidth + 20}
+                      x2={contentX + contentWidth + 16}
                       y2={startY + traceHeight + dielectricHeightVis}
                       stroke="#E2E8F0"
-                      strokeWidth="1.5"
+                      strokeWidth="1.2"
                       markerStart="url(#arrowhead)"
                       markerEnd="url(#arrowhead)"
                     />
                     <rect
-                      x={contentX + contentWidth + 10}
-                      y={startY + traceHeight + dielectricHeightVis / 2 - 10}
-                      width={75}
-                      height={20}
-                      rx="4"
+                      x={contentX + contentWidth + 8}
+                      y={startY + traceHeight + dielectricHeightVis / 2 - 8}
+                      width={60}
+                      height={16}
+                      rx="3"
                       fill="rgba(15, 23, 42, 0.85)"
                     />
                     <text
-                      x={contentX + contentWidth + 47}
-                      y={startY + traceHeight + dielectricHeightVis / 2 + 4}
+                      x={contentX + contentWidth + 38}
+                      y={startY + traceHeight + dielectricHeightVis / 2 + 3}
                       textAnchor="middle"
                       className="text-xs fill-cyan-300 font-medium"
                     >
@@ -782,26 +789,26 @@ const App = () => {
                 ) : (
                   <>
                     <line
-                      x1={contentX + contentWidth + 20}
-                      y1={startY - 15}
-                      x2={contentX + contentWidth + 20}
-                      y2={startY + traceHeight + dielectricHeightVis + substrateHeightVis + 15}
+                      x1={contentX + contentWidth + 16}
+                      y1={startY - 12}
+                      x2={contentX + contentWidth + 16}
+                      y2={startY + traceHeight + dielectricHeightVis + substrateHeightVis + 12}
                       stroke="#E2E8F0"
-                      strokeWidth="1.5"
+                      strokeWidth="1.2"
                       markerStart="url(#arrowhead)"
                       markerEnd="url(#arrowhead)"
                     />
                     <rect
-                      x={contentX + contentWidth + 10}
-                      y={startY + traceHeight / 2 + dielectricHeightVis + substrateHeightVis / 2 - 10}
-                      width={75}
-                      height={20}
-                      rx="4"
+                      x={contentX + contentWidth + 8}
+                      y={startY + traceHeight / 2 + dielectricHeightVis + substrateHeightVis / 2 - 8}
+                      width={60}
+                      height={16}
+                      rx="3"
                       fill="rgba(15, 23, 42, 0.85)"
                     />
                     <text
-                      x={contentX + contentWidth + 47}
-                      y={startY + traceHeight / 2 + dielectricHeightVis + substrateHeightVis / 2 + 4}
+                      x={contentX + contentWidth + 38}
+                      y={startY + traceHeight / 2 + dielectricHeightVis + substrateHeightVis / 2 + 3}
                       textAnchor="middle"
                       className="text-xs fill-cyan-300 font-medium"
                     >
@@ -813,25 +820,25 @@ const App = () => {
                 {/* Width dimension */}
                 <line
                   x1={contentX}
-                  y1={startY - 25}
+                  y1={startY - 20}
                   x2={contentX + contentWidth}
-                  y2={startY - 25}
+                  y2={startY - 20}
                   stroke="#E2E8F0"
-                  strokeWidth="1.5"
+                  strokeWidth="1.2"
                   markerStart="url(#arrowhead)"
                   markerEnd="url(#arrowhead)"
                 />
                 <rect
-                  x={contentX + contentWidth / 2 - 55}
-                  y={startY - 38}
-                  width={110}
-                  height={20}
-                  rx="4"
+                  x={contentX + contentWidth / 2 - 44}
+                  y={startY - 30}
+                  width={88}
+                  height={16}
+                  rx="3"
                   fill="rgba(15, 23, 42, 0.85)"
                 />
                 <text
                   x={contentX + contentWidth / 2}
-                  y={startY - 24}
+                  y={startY - 19}
                   textAnchor="middle"
                   className="text-xs fill-cyan-300 font-medium"
                 >
@@ -842,13 +849,13 @@ const App = () => {
                 <defs>
                   <marker
                     id="arrowhead"
-                    markerWidth="6"
-                    markerHeight="5"
-                    refX="3"
-                    refY="2.5"
+                    markerWidth="5"
+                    markerHeight="4"
+                    refX="2.5"
+                    refY="2"
                     orient="auto"
                   >
-                    <path d="M0,0 L6,2.5 L0,5 Z" fill="#E2E8F0" />
+                    <path d="M0,0 L5,2 L0,4 Z" fill="#E2E8F0" />
                   </marker>
                 </defs>
               </svg>
@@ -1029,6 +1036,20 @@ const App = () => {
           cursor: pointer;
           border: 2px solid #0891B2;
           box-shadow: 0 4px 8px rgba(6, 182, 212, 0.4);
+        }
+        
+        /* Mobile-specific SVG sizing - 10% smaller */
+        @media (max-width: 1023px) {
+          .max-w-7xl {
+            max-width: 100% !important;
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+          }
+          /* Reduce SVG size by 10% on mobile only */
+          .bg-slate-800\\/50:nth-child(2) svg {
+            transform: scale(0.9);
+            transform-origin: center;
+          }
         }
       `}</style>
     </div>
