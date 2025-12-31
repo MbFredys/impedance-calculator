@@ -343,12 +343,12 @@ const App = () => {
     return "";
   };
 
-  // Stack-up visualization dimensions - BASE DIMENSIONS
-  const baseSvgWidth = 440;
-  const baseSvgHeight = 256;
-  const margin = 32;
-  const availableHeight = baseSvgHeight - 2 * margin;
-  const availableWidth = baseSvgWidth - 2 * margin;
+  // Stack-up visualization dimensions - RESTORED TO ORIGINAL DESKTOP SIZE
+  const svgWidth = 550; // Original desktop size
+  const svgHeight = 320; // Original desktop size
+  const margin = 40;
+  const availableHeight = svgHeight - 2 * margin;
+  const availableWidth = svgWidth - 2 * margin;
 
   const contentWidth = availableWidth * 0.7;
   const contentHeight = availableHeight * 0.8;
@@ -361,13 +361,13 @@ const App = () => {
   
   const scaleFactor = contentHeight / Math.max(totalActualHeight * unitFactor, 0.01);
   
-  const traceHeight = Math.max(traceThickness * unitFactor * scaleFactor, 10);
+  const traceHeight = Math.max(traceThickness * unitFactor * scaleFactor, 12);
   const dielectricHeightVis = traceType === 'microstrip' 
-    ? Math.max(dielectricHeight * unitFactor * scaleFactor, 16)
-    : Math.max((substrateHeight * unitFactor / 2) * scaleFactor, 16);
+    ? Math.max(dielectricHeight * unitFactor * scaleFactor, 20)
+    : Math.max((substrateHeight * unitFactor / 2) * scaleFactor, 20);
   const substrateHeightVis = traceType === 'microstrip' 
     ? 0 
-    : Math.max((substrateHeight * unitFactor / 2) * scaleFactor, 16);
+    : Math.max((substrateHeight * unitFactor / 2) * scaleFactor, 20);
 
   const totalVisHeight = traceHeight + dielectricHeightVis + substrateHeightVis;
   const startY = contentY + (contentHeight - totalVisHeight) / 2;
@@ -589,7 +589,7 @@ const App = () => {
             </div>
           </div>
 
-          {/* Visualization Panel - CENTERED AND MOBILE-RESIZED */}
+          {/* Visualization Panel - CENTERED AND RESTORED DESKTOP SIZE */}
           <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-6 lg:p-8 shadow-2xl">
             <div className="text-center mb-6">
               <h2 className="text-xl lg:text-2xl font-bold text-white mb-2">
@@ -602,13 +602,7 @@ const App = () => {
             </div>
             
             <div className="flex justify-center">
-              {/* SVG with responsive sizing - 10% smaller on mobile only */}
-              <svg 
-                width={baseSvgWidth} 
-                height={baseSvgHeight} 
-                className="border border-slate-600 rounded-xl bg-slate-900/30 w-full max-w-full lg:max-w-none"
-                style={{ maxWidth: '100%', width: '100%' }}
-              >
+              <svg width={svgWidth} height={svgHeight} className="border border-slate-600 rounded-xl bg-slate-900/30 w-full max-w-full">
                 {/* Ground Plane (Microstrip) or Bottom Ground (Stripline) */}
                 {traceType === 'stripline' && (
                   <>
@@ -616,15 +610,15 @@ const App = () => {
                       x={contentX}
                       y={startY + traceHeight + dielectricHeightVis + substrateHeightVis}
                       width={contentWidth}
-                      height={12}
+                      height={15}
                       fill="#64748B"
-                      rx="2"
+                      rx="3"
                     />
                     <text
                       x={contentX + contentWidth / 2}
-                      y={startY + traceHeight + dielectricHeightVis + substrateHeightVis + 20}
+                      y={startY + traceHeight + dielectricHeightVis + substrateHeightVis + 24}
                       textAnchor="middle"
-                      className="text-xs fill-slate-300 font-medium"
+                      className="text-sm fill-slate-300 font-medium"
                     >
                       {t('ground')}
                     </text>
@@ -641,7 +635,7 @@ const App = () => {
                   opacity="0.9"
                 />
                 <text
-                  x={contentX - 12}
+                  x={contentX - 15}
                   y={
                     traceType === 'microstrip'
                       ? startY + traceHeight + dielectricHeightVis / 2
@@ -649,7 +643,7 @@ const App = () => {
                   }
                   textAnchor="end"
                   dominantBaseline="middle"
-                  className="text-xs fill-slate-200 font-medium"
+                  className="text-sm fill-slate-200 font-medium"
                 >
                   {materialName}
                 </text>
@@ -668,7 +662,7 @@ const App = () => {
                   y={startY + traceHeight / 2}
                   textAnchor="middle"
                   dominantBaseline="middle"
-                  className="text-xs fill-white font-bold"
+                  className="text-sm fill-white font-bold"
                 >
                   {t('trace')}
                 </text>
@@ -681,15 +675,15 @@ const App = () => {
                       x={contentX}
                       y={startY + traceHeight + dielectricHeightVis}
                       width={contentWidth}
-                      height={Math.max(contentY + contentHeight - (startY + traceHeight + dielectricHeightVis), 12)}
+                      height={Math.max(contentY + contentHeight - (startY + traceHeight + dielectricHeightVis), 15)}
                       fill="#38BDF8"
                       opacity="0.15"
                     />
                     <text
-                      x={contentX - 12}
-                      y={startY + traceHeight + dielectricHeightVis + 18}
+                      x={contentX - 15}
+                      y={startY + traceHeight + dielectricHeightVis + 22}
                       textAnchor="end"
-                      className="text-xs fill-blue-400 font-medium"
+                      className="text-sm fill-blue-400 font-medium"
                     >
                       {t('air')}
                     </text>
@@ -706,28 +700,28 @@ const App = () => {
                       opacity="0.9"
                     />
                     <text
-                      x={contentX - 12}
+                      x={contentX - 15}
                       y={startY + dielectricHeightVis / 2}
                       textAnchor="end"
                       dominantBaseline="middle"
-                      className="text-xs fill-slate-200 font-medium"
+                      className="text-sm fill-slate-200 font-medium"
                     >
                       {materialName}
                     </text>
                     {/* Top ground plane */}
                     <rect
                       x={contentX}
-                      y={startY - 12}
+                      y={startY - 15}
                       width={contentWidth}
-                      height={12}
+                      height={15}
                       fill="#64748B"
-                      rx="2"
+                      rx="3"
                     />
                     <text
                       x={contentX + contentWidth / 2}
-                      y={startY - 18}
+                      y={startY - 22}
                       textAnchor="middle"
-                      className="text-xs fill-slate-300 font-medium"
+                      className="text-sm fill-slate-300 font-medium"
                     >
                       {t('ground')}
                     </text>
@@ -741,15 +735,15 @@ const App = () => {
                       x={contentX}
                       y={startY + traceHeight + dielectricHeightVis}
                       width={contentWidth}
-                      height={12}
+                      height={15}
                       fill="#64748B"
-                      rx="2"
+                      rx="3"
                     />
                     <text
                       x={contentX + contentWidth / 2}
-                      y={startY + traceHeight + dielectricHeightVis + 20}
+                      y={startY + traceHeight + dielectricHeightVis + 24}
                       textAnchor="middle"
-                      className="text-xs fill-slate-300 font-medium"
+                      className="text-sm fill-slate-300 font-medium"
                     >
                       {t('ground')}
                     </text>
@@ -760,26 +754,26 @@ const App = () => {
                 {traceType === 'microstrip' ? (
                   <>
                     <line
-                      x1={contentX + contentWidth + 16}
+                      x1={contentX + contentWidth + 20}
                       y1={startY + traceHeight}
-                      x2={contentX + contentWidth + 16}
+                      x2={contentX + contentWidth + 20}
                       y2={startY + traceHeight + dielectricHeightVis}
                       stroke="#E2E8F0"
-                      strokeWidth="1.2"
+                      strokeWidth="1.5"
                       markerStart="url(#arrowhead)"
                       markerEnd="url(#arrowhead)"
                     />
                     <rect
-                      x={contentX + contentWidth + 8}
-                      y={startY + traceHeight + dielectricHeightVis / 2 - 8}
-                      width={60}
-                      height={16}
-                      rx="3"
+                      x={contentX + contentWidth + 10}
+                      y={startY + traceHeight + dielectricHeightVis / 2 - 10}
+                      width={75}
+                      height={20}
+                      rx="4"
                       fill="rgba(15, 23, 42, 0.85)"
                     />
                     <text
-                      x={contentX + contentWidth + 38}
-                      y={startY + traceHeight + dielectricHeightVis / 2 + 3}
+                      x={contentX + contentWidth + 47}
+                      y={startY + traceHeight + dielectricHeightVis / 2 + 4}
                       textAnchor="middle"
                       className="text-xs fill-cyan-300 font-medium"
                     >
@@ -789,26 +783,26 @@ const App = () => {
                 ) : (
                   <>
                     <line
-                      x1={contentX + contentWidth + 16}
-                      y1={startY - 12}
-                      x2={contentX + contentWidth + 16}
-                      y2={startY + traceHeight + dielectricHeightVis + substrateHeightVis + 12}
+                      x1={contentX + contentWidth + 20}
+                      y1={startY - 15}
+                      x2={contentX + contentWidth + 20}
+                      y2={startY + traceHeight + dielectricHeightVis + substrateHeightVis + 15}
                       stroke="#E2E8F0"
-                      strokeWidth="1.2"
+                      strokeWidth="1.5"
                       markerStart="url(#arrowhead)"
                       markerEnd="url(#arrowhead)"
                     />
                     <rect
-                      x={contentX + contentWidth + 8}
-                      y={startY + traceHeight / 2 + dielectricHeightVis + substrateHeightVis / 2 - 8}
-                      width={60}
-                      height={16}
-                      rx="3"
+                      x={contentX + contentWidth + 10}
+                      y={startY + traceHeight / 2 + dielectricHeightVis + substrateHeightVis / 2 - 10}
+                      width={75}
+                      height={20}
+                      rx="4"
                       fill="rgba(15, 23, 42, 0.85)"
                     />
                     <text
-                      x={contentX + contentWidth + 38}
-                      y={startY + traceHeight / 2 + dielectricHeightVis + substrateHeightVis / 2 + 3}
+                      x={contentX + contentWidth + 47}
+                      y={startY + traceHeight / 2 + dielectricHeightVis + substrateHeightVis / 2 + 4}
                       textAnchor="middle"
                       className="text-xs fill-cyan-300 font-medium"
                     >
@@ -820,25 +814,25 @@ const App = () => {
                 {/* Width dimension */}
                 <line
                   x1={contentX}
-                  y1={startY - 20}
+                  y1={startY - 25}
                   x2={contentX + contentWidth}
-                  y2={startY - 20}
+                  y2={startY - 25}
                   stroke="#E2E8F0"
-                  strokeWidth="1.2"
+                  strokeWidth="1.5"
                   markerStart="url(#arrowhead)"
                   markerEnd="url(#arrowhead)"
                 />
                 <rect
-                  x={contentX + contentWidth / 2 - 44}
-                  y={startY - 30}
-                  width={88}
-                  height={16}
-                  rx="3"
+                  x={contentX + contentWidth / 2 - 55}
+                  y={startY - 38}
+                  width={110}
+                  height={20}
+                  rx="4"
                   fill="rgba(15, 23, 42, 0.85)"
                 />
                 <text
                   x={contentX + contentWidth / 2}
-                  y={startY - 19}
+                  y={startY - 24}
                   textAnchor="middle"
                   className="text-xs fill-cyan-300 font-medium"
                 >
@@ -849,13 +843,13 @@ const App = () => {
                 <defs>
                   <marker
                     id="arrowhead"
-                    markerWidth="5"
-                    markerHeight="4"
-                    refX="2.5"
-                    refY="2"
+                    markerWidth="6"
+                    markerHeight="5"
+                    refX="3"
+                    refY="2.5"
                     orient="auto"
                   >
-                    <path d="M0,0 L5,2 L0,4 Z" fill="#E2E8F0" />
+                    <path d="M0,0 L6,2.5 L0,5 Z" fill="#E2E8F0" />
                   </marker>
                 </defs>
               </svg>
@@ -890,26 +884,26 @@ const App = () => {
           </div>
         </div>
 
-        {/* Info Panel */}
+        {/* Info Panel - MOBILE TEXT SIZE ADJUSTMENT */}
         <div className="mt-12 bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8 shadow-2xl">
           <h3 className="text-2xl font-bold text-white mb-6 text-center">{t('about')}</h3>
           <div className="grid md:grid-cols-2 gap-8 text-slate-300">
             <div className="space-y-4">
               <h4 className="text-xl font-semibold text-cyan-400">{t('microstrip')}</h4>
-              <p className="text-lg leading-relaxed">
+              <p className="text-lg leading-relaxed lg:text-lg text-sm md:text-base">
                 {t('microstripInfo')}
               </p>
             </div>
             <div className="space-y-4">
               <h4 className="text-xl font-semibold text-cyan-400">{t('stripline')}</h4>
-              <p className="text-lg leading-relaxed">
+              <p className="text-lg leading-relaxed lg:text-lg text-sm md:text-base">
                 {t('striplineInfo')}
               </p>
             </div>
           </div>
         </div>
 
-        {/* Examples Section */}
+        {/* Examples Section - MOBILE TEXT SIZE ADJUSTMENT */}
         <div className="mt-12 bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8 shadow-2xl">
           <h3 className="text-3xl font-bold text-white mb-8 text-center">{t('examplesTitle')}</h3>
           
@@ -934,7 +928,9 @@ const App = () => {
                 </button>
                 {openExamples === index && (
                   <div className="p-6 bg-slate-800/30 border-t border-slate-600">
-                    <p className="text-slate-300 text-lg leading-relaxed whitespace-pre-line">{example.content}</p>
+                    <p className="text-slate-300 text-lg leading-relaxed whitespace-pre-line lg:text-lg text-sm md:text-base">
+                      {example.content}
+                    </p>
                   </div>
                 )}
               </div>
@@ -942,7 +938,7 @@ const App = () => {
           </div>
         </div>
 
-        {/* FAQ Section */}
+        {/* FAQ Section - MOBILE TEXT SIZE ADJUSTMENT */}
         <div className="mt-12 bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8 shadow-2xl">
           <h3 className="text-3xl font-bold text-white mb-8 text-center">{t('faqTitle')}</h3>
           
@@ -968,13 +964,13 @@ const App = () => {
                 {openFAQ === index && (
                   <div className="p-6 bg-slate-800/30 border-t border-slate-600">
                     {Array.isArray(faq.answer) ? (
-                      <ol className="text-slate-300 text-lg leading-relaxed space-y-2 list-decimal pl-5">
+                      <ol className="text-slate-300 text-lg leading-relaxed space-y-2 list-decimal pl-5 lg:text-lg text-sm md:text-base">
                         {faq.answer.map((step, i) => (
                           <li key={i}>{step}</li>
                         ))}
                       </ol>
                     ) : (
-                      <p className="text-slate-300 text-lg leading-relaxed">{faq.answer}</p>
+                      <p className="text-slate-300 text-lg leading-relaxed lg:text-lg text-sm md:text-base">{faq.answer}</p>
                     )}
                   </div>
                 )}
@@ -1038,17 +1034,26 @@ const App = () => {
           box-shadow: 0 4px 8px rgba(6, 182, 212, 0.4);
         }
         
-        /* Mobile-specific SVG sizing - 10% smaller */
-        @media (max-width: 1023px) {
-          .max-w-7xl {
-            max-width: 100% !important;
-            padding-left: 1rem !important;
-            padding-right: 1rem !important;
+        /* Text size adjustments for mobile */
+        @media (max-width: 767px) {
+          .text-lg {
+            font-size: 0.875rem !important; /* 14px */
+            line-height: 1.5rem !important;
           }
-          /* Reduce SVG size by 10% on mobile only */
-          .bg-slate-800\\/50:nth-child(2) svg {
-            transform: scale(0.9);
-            transform-origin: center;
+          .text-xl {
+            font-size: 1.125rem !important; /* 18px */
+          }
+          .text-2xl {
+            font-size: 1.25rem !important; /* 20px */
+          }
+          .text-3xl {
+            font-size: 1.5rem !important; /* 24px */
+          }
+          .text-4xl {
+            font-size: 1.875rem !important; /* 30px */
+          }
+          .text-5xl {
+            font-size: 2.25rem !important; /* 36px */
           }
         }
       `}</style>
